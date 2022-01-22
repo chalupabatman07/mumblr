@@ -1,14 +1,19 @@
 import AltairFastify from 'altair-fastify-plugin';
+import { config } from 'dotenv';
 import fastify from 'fastify';
 import mercurius from 'mercurius';
 
-import { createTypeGraphQLSchema } from './temp/createTypeGraphQLSchema';
+import { initTypeorm } from './db';
+import { buildTypegraphqlSchema } from './schema';
 
 const app = fastify();
 
-(async () => {
-  const schema = await createTypeGraphQLSchema();
+config();
 
+(async () => {
+  await initTypeorm();
+
+  const schema = await buildTypegraphqlSchema();
   app.register(mercurius, {
     schema,
     graphiql: false,
@@ -19,7 +24,6 @@ const app = fastify();
   app.register(AltairFastify, {
     path: '/altair',
     baseURL: '/altair/',
-    // 'endpointURL' should be the same as the mercurius 'path'
     endpointURL: '/graphql',
   });
 
