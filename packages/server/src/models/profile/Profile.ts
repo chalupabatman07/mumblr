@@ -1,7 +1,17 @@
 import { Field, ID, ObjectType } from 'type-graphql';
-import { BaseEntity, Column, Entity, Generated, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  Generated,
+  JoinColumn,
+  OneToOne,
+  PrimaryGeneratedColumn,
+  RelationId,
+} from 'typeorm';
 
 import { Gender, SexualOrientation } from '../../enums';
+import { Lifestyle } from '..';
 
 @Entity()
 @ObjectType()
@@ -44,4 +54,11 @@ export class Profile extends BaseEntity {
   @Field(type => SexualOrientation)
   @Column({ type: 'enum', enum: SexualOrientation })
   public sexualOrientation!: SexualOrientation;
+
+  @Field(type => Lifestyle)
+  @OneToOne(() => Lifestyle, { cascade: true })
+  @JoinColumn()
+  lifestyle!: Lifestyle;
+  @RelationId((profile: Profile) => profile.lifestyle)
+  lifestyleId!: string;
 }

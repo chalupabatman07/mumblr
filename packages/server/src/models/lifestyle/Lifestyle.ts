@@ -1,5 +1,5 @@
 import { Field, ID, ObjectType } from 'type-graphql';
-import { BaseEntity, Column, Entity, Generated, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 import { Drinking, Pets, Smoking, Zodiac } from '../../enums';
 
@@ -10,30 +10,23 @@ export class Lifestyle extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   public readonly id!: string;
 
-  @Field(() => ID)
-  @Column()
-  // TODO: for now we are going to just be auto generating a uuid
-  // but need to replace this with the actual profileId
-  @Generated('uuid')
-  public readonly profileId!: string;
-
-  @Field(type => Drinking)
-  @Column({ type: 'enum', enum: Drinking })
+  @Field(type => Drinking, { nullable: true })
+  @Column({ type: 'enum', enum: Drinking, nullable: true })
   public drinking?: Drinking;
 
-  @Field(type => Smoking)
-  @Column({ type: 'enum', enum: Smoking })
+  @Field(type => Smoking, { nullable: true })
+  @Column({ type: 'enum', enum: Smoking, nullable: true })
   public smoking?: Smoking;
 
-  @Field(type => Smoking)
-  @Column({ type: 'enum', enum: Smoking })
+  @Field(type => Smoking, { nullable: true })
+  @Column({ type: 'enum', enum: Smoking, nullable: true })
   public marijuana?: Smoking;
 
-  @Field(type => Zodiac)
-  @Column({ type: 'enum', enum: Zodiac })
+  @Field(type => Zodiac, { nullable: true })
+  @Column({ type: 'enum', enum: Zodiac, nullable: true })
   public zodiac?: Zodiac;
 
-  @Field(type => Pets)
-  @Column({ type: 'enum', enum: Pets })
+  @Field(type => Pets, { nullable: true })
+  @Column({ type: 'enum', enum: Pets, nullable: true })
   public pets?: Pets;
 }
