@@ -1,2 +1,2 @@
-export * from './CreateProfileInput';
-export * from './UpdateProfileInput';
+export * from './create-profile.input';
+export * from './update-profile.input';

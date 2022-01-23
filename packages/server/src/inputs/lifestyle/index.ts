@@ -1,1 +1,1 @@
-export * from './UpdateLifestyleInput';
+export * from './update-lifestyle.input';
