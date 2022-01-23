@@ -4,7 +4,7 @@ import fastify from 'fastify';
 import mercurius from 'mercurius';
 
 import { initTypeorm } from './db';
-import { buildTypegraphqlSchema } from './schema';
+import { buildTypegraphqlSchema } from './server';
 
 const app = fastify();
 
