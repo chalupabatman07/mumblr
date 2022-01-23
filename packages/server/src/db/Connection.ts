@@ -1,8 +1,8 @@
 import { createConnection } from 'typeorm';
 
-import { Lifestyle, Profile } from '../models';
+import { Lifestyle, Profile, User } from '../models';
 
-const entities = [Lifestyle, Profile];
+const entities = [Lifestyle, Profile, User];
 
 export const initTypeorm = async (): Promise<void> => {
   try {
