@@ -1,31 +1,22 @@
-import AltairFastify from 'altair-fastify-plugin';
+import cors from '@koa/cors';
 import { config } from 'dotenv';
-import fastify from 'fastify';
-import mercurius from 'mercurius';
+import Koa from 'koa';
+import bodyParser from 'koa-bodyparser';
+import morgan from 'koa-morgan';
 
 import { initTypeorm } from './db';
-import { buildTypegraphqlSchema } from './server';
-
-const app = fastify();
+import { applyGraphql } from './utils';
 
 config();
+
+const app = new Koa();
 
 (async () => {
   await initTypeorm();
 
-  const schema = await buildTypegraphqlSchema();
-  app.register(mercurius, {
-    schema,
-    graphiql: false,
-    ide: false,
-    path: '/graphql',
-  });
+  app.use(morgan('combined')).use(bodyParser()).use(cors());
 
-  app.register(AltairFastify, {
-    path: '/altair',
-    baseURL: '/altair/',
-    endpointURL: '/graphql',
-  });
+  await applyGraphql(app);
 
   app.listen(8080, (): void => console.log(`SERVER STARTED ON PORT 8080`));
 })();
