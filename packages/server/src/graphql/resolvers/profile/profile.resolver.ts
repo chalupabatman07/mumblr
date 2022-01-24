@@ -1,7 +1,18 @@
-import { Arg, Ctx, FieldResolver, Mutation, Query, Resolver, ResolverInterface, Root } from 'type-graphql';
+import {
+  Arg,
+  Ctx,
+  FieldResolver,
+  Mutation,
+  Query,
+  Resolver,
+  ResolverInterface,
+  Root,
+  UseMiddleware,
+} from 'type-graphql';
 
-import { BlinderContext } from '../../../server';
-import { Exception } from '../../../utils';
+import { BlinderContext, isAuth } from '../../../server';
+import { lifestyleService, profileService } from '../../../services';
+import { checkUserContext } from '../../../utils';
 import { CreateProfileInput, UpdateProfileInput } from '../../inputs';
 import { Lifestyle, Profile } from '../../models';
 
@@ -9,62 +20,31 @@ import { Lifestyle, Profile } from '../../models';
 export class ProfileResolver implements ResolverInterface<Profile> {
   @Query(() => [Profile])
   async getProfile(): Promise<Profile[]> {
-    const profile = await Profile.find();
-    return profile;
+    return await profileService.getAllProfiles();
+  }
+
+  @Query(() => Profile)
+  @UseMiddleware(isAuth)
+  async myProfile(@Ctx() ctx: BlinderContext): Promise<Profile> {
+    const userId = checkUserContext(ctx);
+    return profileService.getProfileByUserId(userId);
   }
 
   @Mutation(() => Profile)
+  @UseMiddleware(isAuth)
   async createProfile(@Arg('input') input: CreateProfileInput, @Ctx() ctx: BlinderContext): Promise<Profile> {
-    if (!ctx.payload) {
-      throw new Exception(400, 'Oops! Something went wrong. Try again later?');
-    }
-
-    const { userId } = ctx.payload;
-    if (!userId) {
-      throw new Exception(400, 'An error occured while trying to create users profile');
-    }
-
-    const { aboutMe, jobTitle, company, school, livingIn, gender, sexualOrientation } = input;
-    const lifestyle = new Lifestyle();
-    const profile = new Profile();
-
-    profile.userId = userId;
-    profile.aboutMe = aboutMe;
-    profile.jobTitle = jobTitle;
-    profile.company = company;
-    profile.school = school;
-    profile.livingIn = livingIn;
-    profile.gender = gender;
-    profile.sexualOrientation = sexualOrientation;
-    profile.lifestyle = lifestyle;
-
-    await profile.save();
-    return profile;
+    const userId = checkUserContext(ctx);
+    return await profileService.createProfile(userId, input);
   }
 
   @Mutation(() => Profile)
+  @UseMiddleware(isAuth)
   async updateProfile(@Arg('input') input: UpdateProfileInput): Promise<Profile> {
-    const { profileId, aboutMe, jobTitle, company, school, livingIn, gender, sexualOrientation } = input;
-    const profile = await Profile.findOne(profileId);
-    if (!profile) {
-      throw new Error('User profile not found');
-    }
-
-    profile.aboutMe = aboutMe ?? profile.aboutMe;
-    profile.jobTitle = jobTitle ?? profile.jobTitle;
-    profile.company = company ?? profile.company;
-    profile.school = school ?? profile.school;
-    profile.livingIn = livingIn ?? profile.livingIn;
-    profile.gender = gender ?? profile.gender;
-    profile.sexualOrientation = sexualOrientation ?? profile.sexualOrientation;
-
-    await profile.save();
-    return profile;
+    return await profileService.updateProfile(input);
   }
 
   @FieldResolver()
   async lifestyle(@Root() profile: Profile): Promise<Lifestyle> {
-    const usersLifestyle = (await Lifestyle.findOne(profile.lifestyleId)) ?? new Lifestyle();
-    return usersLifestyle;
+    return await lifestyleService.getByLifestyleId(profile.lifestyleId);
   }
 }

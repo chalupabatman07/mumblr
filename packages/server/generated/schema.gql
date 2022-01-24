@@ -76,6 +76,7 @@ type Query {
   getLifestyles: [Lifestyle!]!
   getProfile: [Profile!]!
   me: User!
+  myProfile: Profile!
 }
 
 """How the user swings"""

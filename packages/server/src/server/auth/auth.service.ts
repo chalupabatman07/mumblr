@@ -75,7 +75,7 @@ class AuthenticationService {
       throw new Exception(404, 'No account found with provided email');
     }
 
-    const correctPassword = await argon2.verify(userRecord.password, password);
+    const correctPassword = await argon2.verify(userRecord.password, currentPassword);
     if (!correctPassword) {
       throw new Exception(401, 'Current passsword does not match');
     }

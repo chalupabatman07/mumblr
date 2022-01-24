@@ -29,6 +29,7 @@ export const applyGraphql = async (app: Koa): Promise<void> => {
       schema,
       graphiql: {
         headerEditorEnabled: true,
+        shouldPersistHeaders: true,
       },
     }),
   );
