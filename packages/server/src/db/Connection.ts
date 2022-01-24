@@ -1,6 +1,6 @@
 import { createConnection } from 'typeorm';
 
-import { Lifestyle, Profile, User } from '../models';
+import { Lifestyle, Profile, User } from '../graphql';
 
 const entities = [Lifestyle, Profile, User];
 

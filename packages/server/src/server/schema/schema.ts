@@ -6,14 +6,13 @@ import Router from 'koa-router';
 import path from 'path';
 import { buildSchema } from 'type-graphql';
 
-import { LifestyleResolver, ProfileResolver } from '../resolvers';
-import { UserResolver } from '../resolvers/user';
+import { LifestyleResolver, ProfileResolver, UserResolver } from '../../graphql';
 import { LOGIN, SIGN_UP, UPDATE_PASSWORD } from '../routes';
 
 const createSchema = (): Promise<GraphQLSchema> =>
   buildSchema({
     resolvers: [LifestyleResolver, ProfileResolver, UserResolver],
-    emitSchemaFile: path.resolve(__dirname, '../generated/schema.gql'),
+    emitSchemaFile: path.resolve(__dirname, '../../../generated/schema.gql'),
     validate: false,
   });
 
@@ -28,7 +27,9 @@ export const applyGraphql = async (app: Koa): Promise<void> => {
     '/graphql',
     graphqlHTTP({
       schema,
-      graphiql: true,
+      graphiql: {
+        headerEditorEnabled: true,
+      },
     }),
   );
 

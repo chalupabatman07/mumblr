@@ -1,8 +1,8 @@
 import * as argon2 from 'argon2';
 import * as jwt from 'jsonwebtoken';
 
-import { User } from '../models';
-import { Exception } from '../utils';
+import { User } from '../../graphql';
+import { Exception } from '../../utils';
 
 class AuthenticationService {
   private generateJWT(user: any): any {

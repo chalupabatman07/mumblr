@@ -1,8 +1,8 @@
 import { Ctx, Query, Resolver, UseMiddleware } from 'type-graphql';
 
-import { BlinderContext, isAuth } from '../../auth';
+import { BlinderContext, isAuth } from '../../../server';
+import { Exception } from '../../../utils';
 import { User } from '../../models';
-import { Exception } from '../../utils';
 
 @Resolver(of => User)
 export class UserResolver {

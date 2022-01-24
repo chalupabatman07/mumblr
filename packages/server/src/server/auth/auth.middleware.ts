@@ -2,7 +2,7 @@ import { verify } from 'jsonwebtoken';
 import { Request, Response } from 'koa';
 import { MiddlewareFn } from 'type-graphql';
 
-import { Exception } from '../utils';
+import { Exception } from '../../utils';
 
 // TODO: change this name once we come up with app name
 export interface BlinderContext {

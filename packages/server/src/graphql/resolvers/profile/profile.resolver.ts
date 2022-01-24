@@ -1,5 +1,7 @@
-import { Arg, FieldResolver, Mutation, Query, Resolver, ResolverInterface, Root } from 'type-graphql';
+import { Arg, Ctx, FieldResolver, Mutation, Query, Resolver, ResolverInterface, Root } from 'type-graphql';
 
+import { BlinderContext } from '../../../server';
+import { Exception } from '../../../utils';
 import { CreateProfileInput, UpdateProfileInput } from '../../inputs';
 import { Lifestyle, Profile } from '../../models';
 
@@ -12,11 +14,21 @@ export class ProfileResolver implements ResolverInterface<Profile> {
   }
 
   @Mutation(() => Profile)
-  async createProfile(@Arg('input') input: CreateProfileInput): Promise<Profile> {
+  async createProfile(@Arg('input') input: CreateProfileInput, @Ctx() ctx: BlinderContext): Promise<Profile> {
+    if (!ctx.payload) {
+      throw new Exception(400, 'Oops! Something went wrong. Try again later?');
+    }
+
+    const { userId } = ctx.payload;
+    if (!userId) {
+      throw new Exception(400, 'An error occured while trying to create users profile');
+    }
+
     const { aboutMe, jobTitle, company, school, livingIn, gender, sexualOrientation } = input;
     const lifestyle = new Lifestyle();
     const profile = new Profile();
 
+    profile.userId = userId;
     profile.aboutMe = aboutMe;
     profile.jobTitle = jobTitle;
     profile.company = company;

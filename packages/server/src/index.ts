@@ -5,7 +5,7 @@ import bodyParser from 'koa-bodyparser';
 import morgan from 'koa-morgan';
 
 import { initTypeorm } from './db';
-import { applyGraphql } from './utils';
+import { applyGraphql } from './server';
 
 config();
 

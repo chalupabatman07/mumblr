@@ -1,14 +1,5 @@
 import { Field, ID, ObjectType } from 'type-graphql';
-import {
-  BaseEntity,
-  Column,
-  Entity,
-  Generated,
-  JoinColumn,
-  OneToOne,
-  PrimaryGeneratedColumn,
-  RelationId,
-} from 'typeorm';
+import { BaseEntity, Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn, RelationId } from 'typeorm';
 
 import { Gender, SexualOrientation } from '../../enums';
 import { Lifestyle } from '..';
@@ -22,10 +13,7 @@ export class Profile extends BaseEntity {
 
   @Field(() => ID)
   @Column()
-  // TODO: for now we are going to just be auto generating a uuid
-  // but need to replace this with the actual userId
-  @Generated('uuid')
-  public readonly userId!: string;
+  public userId!: string;
 
   @Field(() => String, { nullable: true })
   @Column({ type: 'varchar', nullable: true })
