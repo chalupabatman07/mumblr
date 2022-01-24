@@ -13,7 +13,6 @@ export class User extends BaseEntity {
   @Column({ type: 'varchar', unique: true })
   public email!: string;
 
-  @Field(() => String)
   @Column({ type: 'varchar' })
   @Min(5)
   public password!: string;

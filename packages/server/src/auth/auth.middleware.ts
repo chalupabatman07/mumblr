@@ -19,8 +19,11 @@ export const isAuth: MiddlewareFn<BlinderContext> = ({ context }, next) => {
 
   try {
     const token = authorized.split(' ')[1];
-    const payload = verify(token, process.env.JWT_SECRET!);
-    context.payload = payload as any;
+    const user = verify(token, process.env.JWT_SECRET!) as any;
+    const payload = {
+      userId: user.data.id,
+    };
+    context.payload = payload;
   } catch (e) {
     throw new Exception(401, 'Not authorized');
   }

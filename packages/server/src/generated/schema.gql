@@ -123,7 +123,6 @@ input UpdateProfileInput {
 type User {
   email: String!
   id: ID!
-  password: String!
   phoneNumber: String!
 }
 
