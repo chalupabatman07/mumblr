@@ -1,7 +1,7 @@
-import { BlinderContext } from '../server';
+import { MumblrContext } from '../server';
 import { Exception } from '.';
 
-export const checkUserContext = (ctx: BlinderContext): string => {
+export const checkUserContext = (ctx: MumblrContext): string => {
   if (!ctx.payload) {
     throw new Exception(400, 'Oops! Something went wrong. Try again later?');
   }

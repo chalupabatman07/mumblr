@@ -1,6 +1,6 @@
 {
-  "name": "monorepo",
-  "description": "My base for monorepo which include a React web app, React Native and Server",
+  "name": "mumblr",
+  "description": "A dating app that puts your personality first and foremost!",
   "version": "0.1.0",
   "private": true,
   "workspaces": {
@@ -24,9 +24,9 @@
     "clean": "lerna clean --yes && rm -rf node_modules",
     "update:deps": "node ./scripts/updateDeps.js",
     "setup": "npx yarn && npx yarn bootstrap && npx yarn husky install",
-    "start:server": "npx yarn workspace @monorepo/server dev",
-    "start:client": "npx yarn workspace @monorepo/client start",
-    "android:start": "npx yarn workspace @monorepo/mobile android"
+    "start:server": "npx yarn workspace @mumblr/server dev",
+    "start:client": "npx yarn workspace @mumblr/client start",
+    "android:start": "npx yarn workspace @mumblr/mobile android"
   },
   "devDependencies": {
     "@commitlint/cli": "^16.1.0",

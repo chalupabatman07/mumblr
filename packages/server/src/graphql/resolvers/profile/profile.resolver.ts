@@ -10,7 +10,7 @@ import {
   UseMiddleware,
 } from 'type-graphql';
 
-import { BlinderContext, isAuth } from '../../../server';
+import { isAuth, MumblrContext } from '../../../server';
 import { discoveryService, lifestyleService, profileService } from '../../../services';
 import { checkUserContext } from '../../../utils';
 import { CreateProfileInput, UpdateProfileInput } from '../../inputs';
@@ -25,14 +25,14 @@ export class ProfileResolver implements ResolverInterface<Profile> {
 
   @Query(() => Profile)
   @UseMiddleware(isAuth)
-  async myProfile(@Ctx() ctx: BlinderContext): Promise<Profile> {
+  async myProfile(@Ctx() ctx: MumblrContext): Promise<Profile> {
     const userId = checkUserContext(ctx);
     return profileService.getProfileByUserId(userId);
   }
 
   @Mutation(() => Profile)
   @UseMiddleware(isAuth)
-  async createProfile(@Arg('input') input: CreateProfileInput, @Ctx() ctx: BlinderContext): Promise<Profile> {
+  async createProfile(@Arg('input') input: CreateProfileInput, @Ctx() ctx: MumblrContext): Promise<Profile> {
     const userId = checkUserContext(ctx);
     return await profileService.createProfile(userId, input);
   }

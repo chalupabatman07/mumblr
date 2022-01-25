@@ -4,14 +4,13 @@ import { MiddlewareFn } from 'type-graphql';
 
 import { Exception } from '../../utils';
 
-// TODO: change this name once we come up with app name
-export interface BlinderContext {
+export interface MumblrContext {
   request: Request;
   response: Response;
   payload?: { userId: string };
 }
 
-export const isAuth: MiddlewareFn<BlinderContext> = ({ context }, next) => {
+export const isAuth: MiddlewareFn<MumblrContext> = ({ context }, next) => {
   const authorized = context.request.headers['authorization'];
   if (!authorized) {
     throw new Exception(401, 'Not authorized');
