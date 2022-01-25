@@ -1,4 +1,4 @@
-import { Participant } from '../../graphql';
+import { Participant } from '../../schema';
 
 class ParticipantService {
   public async getAllParticipantsByConversationId(conversationId: string): Promise<Participant[]> {

@@ -1,4 +1,4 @@
-import { CreateProfileInput, Discovery, Lifestyle, Profile, UpdateProfileInput } from '../../graphql';
+import { CreateProfileInput, Discovery, Lifestyle, Profile, UpdateProfileInput } from '../../schema';
 import { Exception } from '../../utils';
 
 class ProfileService {

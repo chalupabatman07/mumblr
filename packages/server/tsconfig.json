@@ -1,11 +1,14 @@
 {
   "extends": "../../tsconfig.json",
   "include": [
-    "src"
+    "src",
+    "../shared/src"
   ],
   "compilerOptions": {
     "module": "commonjs",
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
+    "emitDecoratorMetadata": true,
+    "target": "ES6",
+    "outDir": "./dist"
   }
 }

@@ -1,4 +1,4 @@
-import { Lifestyle, UpdateLifestyleInput } from '../../graphql';
+import { Lifestyle, UpdateLifestyleInput } from '../../schema';
 import { Exception } from '../../utils';
 
 class LifestyleService {

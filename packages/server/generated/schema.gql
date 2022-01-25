@@ -5,7 +5,13 @@
 
 type Conversation {
   id: ID!
+  messages: [Message]!
   participants: [Participant!]!
+}
+
+input CreateMessageInput {
+  content: String!
+  conversationId: String!
 }
 
 input CreateProfileInput {
@@ -67,8 +73,17 @@ type Match {
   userId: String!
 }
 
+type Message {
+  content: String
+  conversationId: String
+  id: Int
+  sentAt: String
+  sentBy: String
+}
+
 type Mutation {
   createMatch(matchId: String!): Match!
+  createMessageForConversationId(input: CreateMessageInput!): [Message!]!
   createProfile(input: CreateProfileInput!): Profile!
   updateDiscovery(input: UpdateDiscoveryInput!): Discovery!
   updateLifestyle(input: UpdateLifestyleInput!): Lifestyle!
@@ -107,10 +122,12 @@ type Profile {
 }
 
 type Query {
+  getAllMessages: [Message!]!
   getConversationById(conversationId: String!): Conversation!
   getDiscoveries: [Discovery!]!
   getLifestyles: [Lifestyle!]!
   getMatches: [Match!]!
+  getMessagesByConversationId(conversationId: String!): [Message!]!
   getProfile: [Profile!]!
   me: User!
   myProfile: Profile!

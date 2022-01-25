@@ -12,9 +12,10 @@ import {
   DiscoveryResolver,
   LifestyleResolver,
   MatchResolver,
+  MessageResolver,
   ProfileResolver,
   UserResolver,
-} from '../../graphql';
+} from '../../schema';
 import { LOGIN, SIGN_UP, UPDATE_PASSWORD } from '../routes';
 
 const createSchema = (): Promise<GraphQLSchema> =>
@@ -24,6 +25,7 @@ const createSchema = (): Promise<GraphQLSchema> =>
       DiscoveryResolver,
       LifestyleResolver,
       MatchResolver,
+      MessageResolver,
       ProfileResolver,
       UserResolver,
     ],

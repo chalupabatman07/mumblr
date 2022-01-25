@@ -1,4 +1,4 @@
-import { Conversation, Participant } from '../../graphql';
+import { Conversation, Participant } from '../../schema';
 import { Exception } from '../../utils';
 
 class ConversationService {
@@ -26,6 +26,7 @@ class ConversationService {
       await participantOne.save();
       await participantTwo.save();
       conversation.participants = [participantOne, participantTwo];
+      conversation.messages = [];
       await conversation.save();
     } catch (e) {
       throw new Exception(400, `An error occured while trying to make a conversation for match with id: ${matchId}`);
