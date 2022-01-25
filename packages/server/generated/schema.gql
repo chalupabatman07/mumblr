@@ -3,6 +3,10 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+type Conversation {
+  id: ID!
+}
+
 input CreateProfileInput {
   aboutMe: String
   age: Int!
@@ -56,6 +60,7 @@ type Lifestyle {
 }
 
 type Match {
+  conversation: Conversation!
   id: ID!
   matchId: String!
   userId: String!

@@ -1,4 +1,4 @@
-import { Match } from '../../graphql';
+import { Conversation, Match } from '../../graphql';
 import { Exception } from '../../utils';
 
 class MatchService {
@@ -15,14 +15,17 @@ class MatchService {
   }
 
   public async createMatch(userId: string, matchId: string): Promise<Match> {
+    const conversation = new Conversation();
     const match = new Match();
     match.userId = userId;
     match.matchId = matchId;
+    match.conversation = conversation;
 
     try {
       await match.save();
       console.log('match id: ', match.id);
     } catch (e) {
+      console.log(e);
       throw new Exception(400, 'An error occured while trying to create a match');
     }
 
