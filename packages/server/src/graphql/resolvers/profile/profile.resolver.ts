@@ -11,10 +11,10 @@ import {
 } from 'type-graphql';
 
 import { BlinderContext, isAuth } from '../../../server';
-import { lifestyleService, profileService } from '../../../services';
+import { discoveryService, lifestyleService, profileService } from '../../../services';
 import { checkUserContext } from '../../../utils';
 import { CreateProfileInput, UpdateProfileInput } from '../../inputs';
-import { Lifestyle, Profile } from '../../models';
+import { Discovery, Lifestyle, Profile } from '../../models';
 
 @Resolver(of => Profile)
 export class ProfileResolver implements ResolverInterface<Profile> {
@@ -46,5 +46,10 @@ export class ProfileResolver implements ResolverInterface<Profile> {
   @FieldResolver()
   async lifestyle(@Root() profile: Profile): Promise<Lifestyle> {
     return await lifestyleService.getByLifestyleId(profile.lifestyleId);
+  }
+
+  @FieldResolver()
+  async discovery(@Root() profile: Profile): Promise<Discovery> {
+    return await discoveryService.getByDiscoveryId(profile.discoveryId);
   }
 }

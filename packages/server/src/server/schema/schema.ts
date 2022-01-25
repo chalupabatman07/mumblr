@@ -1,3 +1,4 @@
+import { createRouteExplorer } from 'altair-koa-middleware';
 import { GraphQLSchema } from 'graphql';
 import Koa from 'koa';
 import { graphqlHTTP } from 'koa-graphql';
@@ -6,12 +7,12 @@ import Router from 'koa-router';
 import path from 'path';
 import { buildSchema } from 'type-graphql';
 
-import { LifestyleResolver, ProfileResolver, UserResolver } from '../../graphql';
+import { DiscoveryResolver, LifestyleResolver, ProfileResolver, UserResolver } from '../../graphql';
 import { LOGIN, SIGN_UP, UPDATE_PASSWORD } from '../routes';
 
 const createSchema = (): Promise<GraphQLSchema> =>
   buildSchema({
-    resolvers: [LifestyleResolver, ProfileResolver, UserResolver],
+    resolvers: [DiscoveryResolver, LifestyleResolver, ProfileResolver, UserResolver],
     emitSchemaFile: path.resolve(__dirname, '../../../generated/schema.gql'),
     validate: false,
   });
@@ -37,6 +38,15 @@ export const applyGraphql = async (app: Koa): Promise<void> => {
   router.post(SIGN_UP.path, SIGN_UP.middleware);
   router.post(LOGIN.path, LOGIN.middleware);
   router.post(UPDATE_PASSWORD.path, UPDATE_PASSWORD.middleware);
+
+  createRouteExplorer({
+    url: '/altair',
+    router,
+    opts: {
+      endpointURL: '/graphql',
+      subscriptionsEndpoint: 'ws://localhost:8080/subscriptions',
+    },
+  });
 
   app.use(router.routes()).use(router.allowedMethods());
 };

@@ -5,12 +5,25 @@
 
 input CreateProfileInput {
   aboutMe: String
+  age: Int!
   company: String
   gender: Gender!
   jobTitle: String
   livingIn: String
   school: String
   sexualOrientation: SexualOrientation!
+}
+
+type Discovery {
+  agePreferenceEnd: Int
+  agePreferenceStart: Int
+  distance: Int
+  id: ID!
+  location: String
+  showGlobal: Boolean
+  showMe: Boolean
+  showOnlyInAgeRange: Boolean
+  showPreference: ShowPreference
 }
 
 """Does the user drink"""
@@ -44,6 +57,7 @@ type Lifestyle {
 
 type Mutation {
   createProfile(input: CreateProfileInput!): Profile!
+  updateDiscovery(input: UpdateDiscoveryInput!): Discovery!
   updateLifestyle(input: UpdateLifestyleInput!): Lifestyle!
   updateProfile(input: UpdateProfileInput!): Profile!
 }
@@ -61,7 +75,9 @@ enum Pets {
 
 type Profile {
   aboutMe: String
+  age: Int!
   company: String
+  discovery: Discovery!
   gender: Gender!
   id: ID!
   jobTitle: String
@@ -73,6 +89,7 @@ type Profile {
 }
 
 type Query {
+  getDiscoveries: [Discovery!]!
   getLifestyles: [Lifestyle!]!
   getProfile: [Profile!]!
   me: User!
@@ -92,12 +109,31 @@ enum SexualOrientation {
   STRAIGHT
 }
 
+"""Who to show to the user"""
+enum ShowPreference {
+  EVERYONE
+  MEN
+  WOMEN
+}
+
 """Does the user smoke?"""
 enum Smoking {
   NONSMOKER
   SMOKER
   SMOKER_WHILE_DRINKING
   SOCIAL_SMOKER
+}
+
+input UpdateDiscoveryInput {
+  agePreferenceEnd: Int!
+  agePreferenceStart: Int!
+  discoveryId: String!
+  distance: Int!
+  location: String!
+  showGlobal: Boolean!
+  showMe: Boolean!
+  showOnlyInAgeRange: Boolean!
+  showPreference: ShowPreference!
 }
 
 input UpdateLifestyleInput {

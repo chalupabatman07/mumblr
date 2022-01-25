@@ -1,10 +1,13 @@
 import { Length } from 'class-validator';
-import { Field, InputType } from 'type-graphql';
+import { Field, InputType, Int } from 'type-graphql';
 
 import { Gender, SexualOrientation } from '../../enums';
 
 @InputType()
 export class CreateProfileInput {
+  @Field(() => Int)
+  age!: number;
+
   @Field({ nullable: true })
   @Length(5, 500)
   aboutMe?: string;
