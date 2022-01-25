@@ -55,7 +55,14 @@ type Lifestyle {
   zodiac: Zodiac
 }
 
+type Match {
+  id: ID!
+  matchId: String!
+  userId: String!
+}
+
 type Mutation {
+  createMatch(matchId: String!): Match!
   createProfile(input: CreateProfileInput!): Profile!
   updateDiscovery(input: UpdateDiscoveryInput!): Discovery!
   updateLifestyle(input: UpdateLifestyleInput!): Lifestyle!
@@ -91,6 +98,7 @@ type Profile {
 type Query {
   getDiscoveries: [Discovery!]!
   getLifestyles: [Lifestyle!]!
+  getMatches: [Match!]!
   getProfile: [Profile!]!
   me: User!
   myProfile: Profile!

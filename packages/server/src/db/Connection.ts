@@ -1,8 +1,6 @@
 import { createConnection } from 'typeorm';
 
-import { Discovery, Lifestyle, Profile, User } from '../graphql';
-
-const entities = [Discovery, Lifestyle, Profile, User];
+import { entities } from '../graphql';
 
 export const initTypeorm = async (): Promise<void> => {
   try {
