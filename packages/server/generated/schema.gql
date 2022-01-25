@@ -5,6 +5,7 @@
 
 type Conversation {
   id: ID!
+  participants: [Participant!]!
 }
 
 input CreateProfileInput {
@@ -74,6 +75,11 @@ type Mutation {
   updateProfile(input: UpdateProfileInput!): Profile!
 }
 
+type Participant {
+  id: ID!
+  userId: String!
+}
+
 """Pets that users can have"""
 enum Pets {
   ALL_PETS
@@ -101,6 +107,7 @@ type Profile {
 }
 
 type Query {
+  getConversationById(conversationId: String!): Conversation!
   getDiscoveries: [Discovery!]!
   getLifestyles: [Lifestyle!]!
   getMatches: [Match!]!

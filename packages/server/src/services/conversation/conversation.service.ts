@@ -1,4 +1,4 @@
-import { Conversation } from '../../graphql';
+import { Conversation, Participant } from '../../graphql';
 import { Exception } from '../../utils';
 
 class ConversationService {
@@ -14,10 +14,18 @@ class ConversationService {
     return conversation;
   }
 
-  public async createConversation(matchId: string): Promise<Conversation> {
+  public async createConversation(userId: string, matchId: string): Promise<Conversation> {
     const conversation = new Conversation();
+    const participantOne = new Participant();
+    const participantTwo = new Participant();
+
+    participantOne.userId = userId;
+    participantTwo.userId = matchId;
 
     try {
+      await participantOne.save();
+      await participantTwo.save();
+      conversation.participants = [participantOne, participantTwo];
       await conversation.save();
     } catch (e) {
       throw new Exception(400, `An error occured while trying to make a conversation for match with id: ${matchId}`);

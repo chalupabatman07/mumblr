@@ -1,11 +1,11 @@
 import { Field, ID, ObjectType } from 'type-graphql';
-import { BaseEntity, Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn, RelationId } from 'typeorm';
+import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, RelationId } from 'typeorm';
 
 import { Conversation } from '..';
 
 @Entity()
 @ObjectType()
-export class Match extends BaseEntity {
+export class Participant extends BaseEntity {
   @Field(() => ID)
   @PrimaryGeneratedColumn('uuid')
   public readonly id!: string;
@@ -14,14 +14,9 @@ export class Match extends BaseEntity {
   @Column({ type: 'varchar' })
   public userId!: string;
 
-  @Field(() => String)
-  @Column({ type: 'varchar' })
-  public matchId!: string;
-
-  @Field(type => Conversation)
-  @OneToOne(() => Conversation)
+  @ManyToOne(type => Conversation)
   @JoinColumn()
   public conversation!: Conversation;
-  @RelationId((match: Match) => match.conversation)
+  @RelationId((participant: Participant) => participant.conversation)
   public conversationId!: string;
 }

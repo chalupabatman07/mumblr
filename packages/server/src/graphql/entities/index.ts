@@ -1,3 +1,3 @@
-import { Conversation, Discovery, Lifestyle, Match, Profile, User } from '../models';
+import { Conversation, Discovery, Lifestyle, Match, Participant, Profile, User } from '../models';
 
-export const entities = [Conversation, Discovery, Lifestyle, Match, Profile, User];
+export const entities = [Conversation, Discovery, Lifestyle, Match, Participant, Profile, User];
