@@ -1,4 +1,4 @@
-import { Match } from '../../graphql';
+import { Match } from '../../schema';
 import { Exception } from '../../utils';
 import { conversationService } from '..';
 

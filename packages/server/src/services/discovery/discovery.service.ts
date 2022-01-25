@@ -1,4 +1,4 @@
-import { Discovery, UpdateDiscoveryInput } from '../../graphql';
+import { Discovery, UpdateDiscoveryInput } from '../../schema';
 import { Exception } from '../../utils';
 
 class DiscoveryService {

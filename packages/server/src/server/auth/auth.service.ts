@@ -1,7 +1,7 @@
 import * as argon2 from 'argon2';
 import * as jwt from 'jsonwebtoken';
 
-import { User } from '../../graphql';
+import { User } from '../../schema';
 import { Exception } from '../../utils';
 
 class AuthenticationService {

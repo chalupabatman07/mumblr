@@ -1,4 +1,4 @@
-import { User } from '../../graphql';
+import { User } from '../../schema';
 import { Exception } from '../../utils';
 
 class UserService {

@@ -1,8 +1,9 @@
 {
   "name": "@mumblr/shared",
-  "version": "1.0.0",
-  "main": "index.js",
-  "license": "MIT",
+  "version": "0.1.0",
+  "main": "./src/index.ts",
+  "license": "UNLICENSED",
+  "private": true,
   "dependencies": {
     "dayjs": "^1.10.7"
   }
