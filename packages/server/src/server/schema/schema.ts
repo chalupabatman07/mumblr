@@ -7,12 +7,26 @@ import Router from 'koa-router';
 import path from 'path';
 import { buildSchema } from 'type-graphql';
 
-import { DiscoveryResolver, LifestyleResolver, ProfileResolver, UserResolver } from '../../graphql';
+import {
+  ConversationResolver,
+  DiscoveryResolver,
+  LifestyleResolver,
+  MatchResolver,
+  ProfileResolver,
+  UserResolver,
+} from '../../graphql';
 import { LOGIN, SIGN_UP, UPDATE_PASSWORD } from '../routes';
 
 const createSchema = (): Promise<GraphQLSchema> =>
   buildSchema({
-    resolvers: [DiscoveryResolver, LifestyleResolver, ProfileResolver, UserResolver],
+    resolvers: [
+      ConversationResolver,
+      DiscoveryResolver,
+      LifestyleResolver,
+      MatchResolver,
+      ProfileResolver,
+      UserResolver,
+    ],
     emitSchemaFile: path.resolve(__dirname, '../../../generated/schema.gql'),
     validate: false,
   });

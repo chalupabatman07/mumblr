@@ -3,6 +3,11 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+type Conversation {
+  id: ID!
+  participants: [Participant!]!
+}
+
 input CreateProfileInput {
   aboutMe: String
   age: Int!
@@ -55,11 +60,24 @@ type Lifestyle {
   zodiac: Zodiac
 }
 
+type Match {
+  conversation: Conversation!
+  id: ID!
+  matchId: String!
+  userId: String!
+}
+
 type Mutation {
+  createMatch(matchId: String!): Match!
   createProfile(input: CreateProfileInput!): Profile!
   updateDiscovery(input: UpdateDiscoveryInput!): Discovery!
   updateLifestyle(input: UpdateLifestyleInput!): Lifestyle!
   updateProfile(input: UpdateProfileInput!): Profile!
+}
+
+type Participant {
+  id: ID!
+  userId: String!
 }
 
 """Pets that users can have"""
@@ -89,8 +107,10 @@ type Profile {
 }
 
 type Query {
+  getConversationById(conversationId: String!): Conversation!
   getDiscoveries: [Discovery!]!
   getLifestyles: [Lifestyle!]!
+  getMatches: [Match!]!
   getProfile: [Profile!]!
   me: User!
   myProfile: Profile!
