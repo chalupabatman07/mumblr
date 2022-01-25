@@ -16,7 +16,7 @@ class LifestyleService {
 
   public async updateLifestyle(input: UpdateLifestyleInput): Promise<Lifestyle> {
     const { lifestyleId, drinking, smoking, marijuana, zodiac, pets } = input;
-    const lifestyle = await lifestyleService.getByLifestyleId(lifestyleId);
+    const lifestyle = await this.getByLifestyleId(lifestyleId);
 
     lifestyle.drinking = drinking ?? lifestyle.drinking;
     lifestyle.smoking = smoking ?? lifestyle.smoking;

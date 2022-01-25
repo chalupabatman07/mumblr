@@ -1,4 +1,4 @@
-import { CreateProfileInput, Lifestyle, Profile, UpdateProfileInput } from '../../graphql';
+import { CreateProfileInput, Discovery, Lifestyle, Profile, UpdateProfileInput } from '../../graphql';
 import { Exception } from '../../utils';
 
 class ProfileService {
@@ -27,11 +27,13 @@ class ProfileService {
   }
 
   public async createProfile(userId: string, input: CreateProfileInput): Promise<Profile> {
-    const { aboutMe, jobTitle, company, school, livingIn, gender, sexualOrientation } = input;
+    const { age, aboutMe, jobTitle, company, school, livingIn, gender, sexualOrientation } = input;
     const lifestyle = new Lifestyle();
+    const discovery = new Discovery();
     const profile = new Profile();
 
     profile.userId = userId;
+    profile.age = age;
     profile.aboutMe = aboutMe;
     profile.jobTitle = jobTitle;
     profile.company = company;
@@ -40,6 +42,7 @@ class ProfileService {
     profile.gender = gender;
     profile.sexualOrientation = sexualOrientation;
     profile.lifestyle = lifestyle;
+    profile.discovery = discovery;
 
     try {
       await profile.save();

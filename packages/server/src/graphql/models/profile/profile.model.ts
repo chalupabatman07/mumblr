@@ -1,8 +1,8 @@
-import { Field, ID, ObjectType } from 'type-graphql';
+import { Field, ID, Int, ObjectType } from 'type-graphql';
 import { BaseEntity, Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn, RelationId } from 'typeorm';
 
 import { Gender, SexualOrientation } from '../../enums';
-import { Lifestyle } from '..';
+import { Discovery, Lifestyle } from '..';
 
 @Entity()
 @ObjectType()
@@ -14,6 +14,10 @@ export class Profile extends BaseEntity {
   @Field(() => ID)
   @Column()
   public userId!: string;
+
+  @Field(() => Int)
+  @Column({ type: 'integer' })
+  public age!: number;
 
   @Field(() => String, { nullable: true })
   @Column({ type: 'varchar', nullable: true })
@@ -46,7 +50,14 @@ export class Profile extends BaseEntity {
   @Field(type => Lifestyle)
   @OneToOne(() => Lifestyle, { cascade: true })
   @JoinColumn()
-  lifestyle!: Lifestyle;
+  public lifestyle!: Lifestyle;
   @RelationId((profile: Profile) => profile.lifestyle)
-  lifestyleId!: string;
+  public lifestyleId!: string;
+
+  @Field(type => Discovery)
+  @OneToOne(() => Discovery, { cascade: true })
+  @JoinColumn()
+  public discovery!: Discovery;
+  @RelationId((profile: Profile) => profile.discovery)
+  public discoveryId!: string;
 }
