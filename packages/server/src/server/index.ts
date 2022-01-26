@@ -1,3 +1,3 @@
 export * from './auth';
+export * from './create-schema';
 export * from './routes';
-export * from './server-setup';
