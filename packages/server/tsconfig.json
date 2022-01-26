@@ -9,6 +9,7 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "target": "ES6",
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "lib": ["esnext.asynciterable"]
   }
 }

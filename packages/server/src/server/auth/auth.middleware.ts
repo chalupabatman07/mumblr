@@ -1,17 +1,15 @@
 import { verify } from 'jsonwebtoken';
-import { Request, Response } from 'koa';
 import { MiddlewareFn } from 'type-graphql';
 
 import { Exception } from '../../utils';
 
 export interface MumblrContext {
-  request: Request;
-  response: Response;
+  auth?: any;
   payload?: { userId: string };
 }
 
 export const isAuth: MiddlewareFn<MumblrContext> = ({ context }, next) => {
-  const authorized = context.request.headers['authorization'];
+  const authorized = context.auth.identity;
   if (!authorized) {
     throw new Exception(401, 'Not authorized');
   }

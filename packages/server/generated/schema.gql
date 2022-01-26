@@ -85,6 +85,8 @@ type Mutation {
   createMatch(matchId: String!): Match!
   createMessageForConversationId(input: CreateMessageInput!): [Message!]!
   createProfile(input: CreateProfileInput!): Profile!
+  publisherMutation(message: String!): String!
+  sendMessage(message: String!): String!
   updateDiscovery(input: UpdateDiscoveryInput!): Discovery!
   updateLifestyle(input: UpdateLifestyleInput!): Lifestyle!
   updateProfile(input: UpdateProfileInput!): Profile!
@@ -159,6 +161,11 @@ enum Smoking {
   SMOKER
   SMOKER_WHILE_DRINKING
   SOCIAL_SMOKER
+}
+
+type Subscription {
+  normalSubscription: String!
+  receiveMessage: String!
 }
 
 input UpdateDiscoveryInput {
