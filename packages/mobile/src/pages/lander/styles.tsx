@@ -3,38 +3,42 @@ import { StyleSheet } from 'react-native';
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  contentContainer: {
+    flex: 1,
     justifyContent: 'space-between',
   },
   header: {
     flex: 0.33,
-    alignItems: 'center',
     justifyContent: 'center',
+    alignItems: 'center',
   },
   content: {
     flex: 0.66,
-    alignItems: 'center',
     justifyContent: 'flex-end',
-    paddingBottom: 25,
+    alignItems: 'center',
   },
   title: {
     fontFamily: 'segoesc',
     fontSize: 48,
+    textAlign: 'center',
+    color: '#FFFFFF',
   },
   subtitle: {
     fontFamily: 'nexa-bold',
     fontSize: 14,
-    paddingBottom: '-5px',
+    textAlign: 'center',
+    color: '#FFFFFF',
   },
-  createAccountBtn: {
-    backgroundColor: 'yellow',
-    paddingTop: 5,
-    paddingBottom: 5,
-    paddingLeft: 10,
-    paddingRight: 10,
-    borderRadius: 8,
+  options: {
+    paddingBottom: 8,
   },
-  option: {
-    marginBottom: 5,
+  termsText: {
+    maxWidth: 250,
+    fontSize: 10,
+    color: '#FFFFFF',
+    textAlign: 'center',
   },
 });

@@ -1,17 +1,13 @@
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as SecureStore from 'expo-secure-store';
 import React, { useEffect, useState } from 'react';
 import { createClient, Provider } from 'urql';
 
-import { Home } from './pages/home';
-import { Lander } from './pages/lander';
+import { MainRoutes, MainStackParamList } from './routes';
+import MainNavigation from './routes/MainNavigation';
 
 const App = () => {
   const [mumblrToken, setMumblrToken] = useState<string | null>(null);
-  const [initialRoute, setInitialRoute] = useState<string>('lander');
-
-  const Stack = createNativeStackNavigator();
+  const [initialRoute, setInitialRoute] = useState<keyof MainStackParamList>(MainRoutes.Lander);
 
   const getToken = async (): Promise<string | null> => {
     return await SecureStore.getItemAsync('mumblrToken');
@@ -37,19 +33,14 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    if (!mumblrToken) {
-      setInitialRoute('lander');
+    if (mumblrToken) {
+      setInitialRoute(MainRoutes.Home);
     }
   }, [mumblrToken, initialRoute]);
 
   return (
     <Provider value={client}>
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName={initialRoute} screenOptions={{ headerShown: false }}>
-          <Stack.Screen name={'home'} component={Home} />
-          <Stack.Screen name={'lander'} component={Lander} />
-        </Stack.Navigator>
-      </NavigationContainer>
+      <MainNavigation initialRoute={initialRoute} />
     </Provider>
   );
 };

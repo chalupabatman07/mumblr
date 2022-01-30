@@ -15,10 +15,10 @@ const backgroundStyles = StyleSheet.create({
     borderRadius: 50,
   },
   primary: {
-    backgroundColor: '#2c3e50',
+    backgroundColor: '#8e44ad',
   },
   secondary: {
-    backgroundColor: '#9b59b6',
+    backgroundColor: '#bdc3c7',
   },
   transparent: {
     backgroundColor: 'transparent',
@@ -35,19 +35,25 @@ const backgroundStyles = StyleSheet.create({
 
 const textStyles = StyleSheet.create({
   text: {
-    color: 'white',
     fontFamily: 'nexa',
     fontSize: 14,
   },
+  primary: {
+    color: '#FFFFFF',
+  },
+  secondary: {
+    color: '#000000',
+  },
+  transparent: {
+    color: '#FFFFFF',
+  },
 });
 
-export const LanderButton = ({ text, handlePress, type = 'primary', height = 'normal' }: Props) => {
-  return (
-    <Pressable
-      style={[backgroundStyles.btn, backgroundStyles[type], backgroundStyles[height]]}
-      onPress={() => handlePress()}
-    >
-      <Text style={textStyles.text}>{text}</Text>
-    </Pressable>
-  );
-};
+export const LanderButton = ({ text, handlePress, type = 'primary', height = 'normal' }: Props) => (
+  <Pressable
+    style={[backgroundStyles.btn, backgroundStyles[type], backgroundStyles[height]]}
+    onPress={() => handlePress()}
+  >
+    <Text style={[textStyles.text, textStyles[type]]}>{text}</Text>
+  </Pressable>
+);
