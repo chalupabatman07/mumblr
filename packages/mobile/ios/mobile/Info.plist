@@ -36,7 +36,7 @@
 		</dict>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
@@ -51,5 +51,27 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>UIAppFonts</key>
+	<array>
+		<string>segoesc.ttf</string>
+		<string>nexa-black-italic.ttf</string>
+		<string>nexa-black.ttf</string>
+		<string>nexa-bold-italic.ttf</string>
+		<string>nexa-bold.ttf</string>
+		<string>nexa-book-italic.ttf</string>
+		<string>nexa-book.ttf</string>
+		<string>nexa-extra-bold-italic.ttf</string>
+		<string>nexa-extra-bold.ttf</string>
+		<string>nexa-extra-light-italic.ttf</string>
+		<string>nexa-extra-light.ttf</string>
+		<string>nexa-heavy-italic.ttf</string>
+		<string>nexa-heavy.ttf</string>
+		<string>nexa-light-italic.ttf</string>
+		<string>nexa-light.ttf</string>
+		<string>nexa-regular-italic.ttf</string>
+		<string>nexa-regular.ttf</string>
+		<string>nexa-thin-italic.ttf</string>
+		<string>nexa-thin.ttf</string>
+	</array>
 </dict>
 </plist>
