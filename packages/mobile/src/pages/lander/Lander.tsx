@@ -2,8 +2,8 @@ import React from 'react';
 import { Text, View } from 'react-native';
 
 import { BackgroundVideo } from '../../components/backgroundVideo';
-import { LanderButton } from '../../components/Button';
-import { TextLink } from '../../components/Button/TextLink';
+import { LanderButton } from '../../components/button';
+import { TextLink } from '../../components/button/TextLink';
 import { MainRoutes } from '../../routes';
 import { MainNavigationProp } from '../../routes/types';
 import { styles } from './styles';
@@ -33,7 +33,7 @@ export const Lander = ({ navigation }: Props) => {
   };
 
   const handleCreateAccount = (): void => {
-    navigation.navigate(MainRoutes.SignUp);
+    navigation.navigate(MainRoutes.SignUpFlow);
   };
 
   const showLoginOptions = (): void => {
