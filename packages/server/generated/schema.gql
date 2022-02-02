@@ -204,8 +204,10 @@ input UpdateProfileInput {
 
 """User auth information"""
 type User {
-  email: String!
+  email: String
+  emailVerified: Boolean!
   id: ID!
+  numberVerified: Boolean!
   phoneNumber: String!
 }
 

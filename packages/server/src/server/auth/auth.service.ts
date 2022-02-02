@@ -1,4 +1,3 @@
-import * as argon2 from 'argon2';
 import * as jwt from 'jsonwebtoken';
 
 import { User } from '../../schema';
@@ -15,86 +14,54 @@ class AuthenticationService {
     return jwt.sign({ data }, signature);
   }
 
-  public async signUp(email: string, password: string, phoneNumber: string): Promise<any> {
+  public async signUp(phoneNumber: string): Promise<any> {
     const existingUser = await User.findOne({
       where: {
-        email,
+        phoneNumber,
       },
     });
     if (existingUser) {
-      throw new Exception(401, 'This email is already registered with an account!');
+      throw new Exception(401, 'This phone number is already registered with an account!');
     }
 
-    const passwordHashed = await argon2.hash(password);
     const user = new User();
-    user.email = email;
-    user.password = passwordHashed;
     user.phoneNumber = phoneNumber;
+    user.numberVerified = true;
+    user.emailVerified = false;
 
-    await user.save();
-    return {
-      user: {
-        id: user.id,
-        email: user.email,
-      },
-      token: this.generateJWT(user),
-    };
+    try {
+      await user.save();
+      return {
+        user: {
+          id: user.id,
+          phoneNumber: user.phoneNumber,
+        },
+        token: this.generateJWT(user),
+      };
+    } catch (e) {
+      console.log(e);
+      throw new Exception(400, 'An error occured while create users account');
+    }
   }
 
-  public async login(email: string, password: string): Promise<any> {
+  public async login(phoneNumber: string): Promise<any> {
     const userRecord = await User.findOne({
       where: {
-        email,
+        phoneNumber,
       },
     });
-    if (!userRecord) {
-      throw new Exception(404, 'No account found with provided email');
-    }
 
-    const correctPassword = await argon2.verify(userRecord.password, password);
-    if (!correctPassword) {
-      throw new Exception(401, 'Incorrect password');
+    if (!userRecord) {
+      throw new Exception(404, 'No account found with provided phone number');
     }
 
     return {
       user: {
         id: userRecord.id,
-        email: userRecord.email,
+        phoneNumber: userRecord.phoneNumber,
       },
       token: this.generateJWT(userRecord),
     };
-  }
-
-  public async changePassword(email: string, currentPassword: string, password: string): Promise<any> {
-    const userRecord = await User.findOne({
-      where: {
-        email,
-      },
-    });
-    if (!userRecord) {
-      throw new Exception(404, 'No account found with provided email');
-    }
-
-    const correctPassword = await argon2.verify(userRecord.password, currentPassword);
-    if (!correctPassword) {
-      throw new Exception(401, 'Current passsword does not match');
-    }
-
-    const passwordHashed = await argon2.hash(password);
-    userRecord.password = passwordHashed;
-
-    try {
-      userRecord.save();
-      return {
-        user: {
-          id: userRecord.id,
-          email: userRecord.email,
-        },
-        token: this.generateJWT(userRecord),
-      };
-    } catch (e) {
-      throw new Exception(400, 'An error occured while updating the password');
-    }
   }
 }
 
