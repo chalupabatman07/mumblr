@@ -25,11 +25,16 @@ const App = () => {
   });
 
   useEffect(() => {
-    const getMumblrToken = async (): Promise<void> => {
-      const token = await getToken();
-      setMumblrToken(token);
+    // const getMumblrToken = async (): Promise<void> => {
+    //   const token = await getToken();
+    //   setMumblrToken(token);
+    // };
+    // getMumblrToken();
+    const deleteMumblrToken = async (): Promise<void> => {
+      await SecureStore.deleteItemAsync('token');
+      await SecureStore.deleteItemAsync('mumblrToken');
     };
-    getMumblrToken();
+    deleteMumblrToken();
   }, []);
 
   useEffect(() => {

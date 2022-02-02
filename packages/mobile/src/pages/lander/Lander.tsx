@@ -5,11 +5,11 @@ import { BackgroundVideo } from '../../components/backgroundVideo';
 import { LanderButton } from '../../components/button';
 import { TextLink } from '../../components/button/TextLink';
 import { MainRoutes } from '../../routes';
-import { MainNavigationProp } from '../../routes/types';
+import { MainNavigationProps } from '../../routes/types';
 import { styles } from './styles';
 
 interface Props {
-  navigation: MainNavigationProp<MainRoutes.Lander>;
+  navigation: MainNavigationProps<MainRoutes.Lander>;
 }
 
 export const Lander = ({ navigation }: Props) => {
@@ -33,7 +33,7 @@ export const Lander = ({ navigation }: Props) => {
   };
 
   const handleCreateAccount = (): void => {
-    navigation.navigate(MainRoutes.SignUpFlow);
+    navigation.navigate(MainRoutes.SignUpNumber);
   };
 
   const showLoginOptions = (): void => {

@@ -3,20 +3,12 @@ import { FastifyReply, FastifyRequest } from 'fastify';
 import { authService } from '../auth';
 
 export interface IAuthBody {
-  email: string;
-  password: string;
-}
-
-export interface IChangePasswordBody {
-  email: string;
-  password: string;
-  currentPassword: string;
+  phoneNumber: string;
 }
 
 const AUTH_SCHEMA = {
   body: {
-    email: { type: 'string' },
-    password: { type: 'string' },
+    phoneNumber: { type: 'string' },
   },
   response: {
     200: {
@@ -24,36 +16,7 @@ const AUTH_SCHEMA = {
       properties: {
         user: {
           id: { type: 'string' },
-          email: { type: 'string' },
-        },
-        token: { type: 'string' },
-      },
-    },
-    404: {
-      type: 'object',
-      properties: {
-        error: {
-          statusCode: { type: 'string' },
-          message: { type: 'string' },
-        },
-      },
-    },
-  },
-};
-
-const CHANGE_PASSWORD_SCHEMA = {
-  body: {
-    email: { type: 'string' },
-    password: { type: 'string' },
-    currentPassword: { type: 'string' },
-  },
-  response: {
-    200: {
-      type: 'object',
-      properties: {
-        user: {
-          id: { type: 'string' },
-          email: { type: 'string' },
+          phoneNumber: { type: 'string' },
         },
         token: { type: 'string' },
       },
@@ -76,10 +39,10 @@ export const SIGN_UP = {
     schema: AUTH_SCHEMA,
   },
   handler: async (request: FastifyRequest<{ Body: IAuthBody }>, reply: FastifyReply) => {
-    const email = request.body.email;
-    const password = request.body.password;
+    const phoneNumber = request.body.phoneNumber;
+
     try {
-      const user = await authService.signUp(email, password, 'test#');
+      const user = await authService.signUp(phoneNumber);
       reply.send(user);
     } catch (e: any) {
       const error = {
@@ -100,35 +63,10 @@ export const LOGIN = {
     schema: AUTH_SCHEMA,
   },
   handler: async (request: FastifyRequest<{ Body: IAuthBody }>, reply: FastifyReply) => {
-    const email = request.body.email;
-    const password = request.body.password;
-    try {
-      const user = await authService.login(email, password);
-      reply.send(user);
-    } catch (e: any) {
-      const error = {
-        error: {
-          statusCode: e._statusCode,
-          message: e.message,
-        },
-      };
-      reply.code(404);
-      reply.send(error);
-    }
-  },
-};
+    const phoneNumber = request.body.phoneNumber;
 
-export const UPDATE_PASSWORD = {
-  path: '/api/update-password',
-  options: {
-    schema: CHANGE_PASSWORD_SCHEMA,
-  },
-  handler: async (request: FastifyRequest<{ Body: IChangePasswordBody }>, reply: FastifyReply) => {
-    const email = request.body.email;
-    const currentPassword = request.body.currentPassword;
-    const password = request.body.password;
     try {
-      const user = await authService.changePassword(email, currentPassword, password);
+      const user = await authService.login(phoneNumber);
       reply.send(user);
     } catch (e: any) {
       const error = {

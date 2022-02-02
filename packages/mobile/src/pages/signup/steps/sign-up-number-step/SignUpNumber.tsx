@@ -3,24 +3,25 @@ import { KeyboardAvoidingView, Pressable, Text, TextInput, View } from 'react-na
 import Icon from 'react-native-vector-icons/Fontisto';
 
 import { MainRoutes } from '../../../../routes';
-import { MainNavigationProp } from '../../../../routes/types';
+import { MainNavigationProps } from '../../../../routes/types';
 import { formatPhoneNumber } from '../../../../utils';
-import { styles } from '../../styles';
+import { styles } from './styles';
 
 interface Props {
-  navigation: MainNavigationProp<MainRoutes.SignUpFlow>;
+  navigation: MainNavigationProps<MainRoutes.SignUpNumber>;
 }
 
 export const SignUpNumber = ({ navigation }: Props) => {
   const [phoneNumber, setPhoneNumber] = useState<string>('');
+  const [signUpDisabled, setSignUpDisabled] = useState<boolean>(true);
 
   const handlePhoneNumberChange = (phoneNum: string) => {
     const formattedNumber = formatPhoneNumber(phoneNum);
     setPhoneNumber(formattedNumber);
-  };
 
-  const handleProgress = (): void => {
-    // const blah = phoneNumber.replaceAll('\\D', '');
+    if (phoneNumber.length === 13) {
+      setSignUpDisabled(false);
+    }
   };
 
   const handleChangeCountry = (): void => {
@@ -31,40 +32,22 @@ export const SignUpNumber = ({ navigation }: Props) => {
     navigation.navigate(MainRoutes.Lander);
   };
 
-  const handleRegisterByPhone = (): void => {
-    // We do server stuff here
+  const handleRegisterByPhone = async (): Promise<void> => {
+    console.log('phone number bitch: ', phoneNumber);
+    navigation.navigate(MainRoutes.SignUpVerification, { phoneNumber });
   };
 
   return (
-    <KeyboardAvoidingView style={{ flex: 1 }}>
+    <KeyboardAvoidingView style={styles.container}>
       <Icon name='arrow-left' onPress={handleBack} />
       <Text>What's your number?</Text>
-      <View style={{ flexDirection: 'column', justifyContent: 'space-between' }}>
-        <View style={{ flexDirection: 'row' }}>
-          <Pressable
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'center',
-              borderBottomWidth: 0.5,
-              marginRight: 15,
-              width: 65,
-              alignItems: 'flex-end',
-            }}
-            onPress={() => handleChangeCountry()}
-          >
-            <Text style={{ color: 'black', fontSize: 18, fontFamily: 'next', fontWeight: 'bold' }}>US +1</Text>
+      <View style={styles.phoneInfoContainer}>
+        <View style={styles.phoneInputRow}>
+          <Pressable style={styles.countryBtn} onPress={() => handleChangeCountry()}>
+            <Text style={styles.countryInputText}>US +1</Text>
           </Pressable>
           <TextInput
-            style={{
-              fontFamily: 'nexa',
-              fontWeight: 'bold',
-              fontSize: 18,
-              width: 150,
-              borderBottomWidth: 0.5,
-              paddingLeft: 0,
-              paddingBottom: 1,
-              paddingRight: 0,
-            }}
+            style={styles.phoneInput}
             textContentType='telephoneNumber'
             keyboardType='phone-pad'
             onChangeText={(text: string) => handlePhoneNumberChange(text)}
@@ -74,20 +57,10 @@ export const SignUpNumber = ({ navigation }: Props) => {
           />
         </View>
         <View>
-          <Text style={{ fontSize: 12 }}>Mumblr will send you a text with a verifcation code.</Text>
-          <Text style={{ fontSize: 12 }}>Message and data rates may apply.</Text>
+          <Text style={styles.textRateText}>Mumblr will send you a text with a verifcation code.</Text>
+          <Text style={styles.textRateText}>Message and data rates may apply.</Text>
         </View>
-        <Pressable
-          style={{
-            width: 30,
-            height: 30,
-            borderRadius: 100,
-            backgroundColor: 'blue',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-          onPress={handleRegisterByPhone}
-        >
+        <Pressable style={styles.nextBtn} onPress={() => handleRegisterByPhone()} disabled={signUpDisabled}>
           <Icon name='angle-right' size={15} />
         </Pressable>
       </View>

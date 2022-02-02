@@ -13,7 +13,7 @@ import mercuriusAuth from 'mercurius-auth';
 import MercuriusGQLUpload from 'mercurius-upload';
 
 import { initTypeorm } from './db';
-import { createSchema, IAuthBody, IChangePasswordBody, LOGIN, SIGN_UP, UPDATE_PASSWORD } from './server';
+import { createSchema, IAuthBody, LOGIN, SIGN_UP } from './server';
 
 config();
 
@@ -99,7 +99,6 @@ const origin = 'some website';
 
   server.post<{ Body: IAuthBody }>(LOGIN.path, LOGIN.options, LOGIN.handler);
   server.post<{ Body: IAuthBody }>(SIGN_UP.path, SIGN_UP.options, SIGN_UP.handler);
-  server.post<{ Body: IChangePasswordBody }>(UPDATE_PASSWORD.path, UPDATE_PASSWORD.options, UPDATE_PASSWORD.handler);
 
   server.register(fastifyCompress, { global: false, onUnsupportedEncoding: rejectEncoding });
 

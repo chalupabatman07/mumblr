@@ -1,4 +1,3 @@
-import { gql } from '@apollo/client';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -269,8 +268,10 @@ export type UpdateProfileInput = {
 /** User auth information */
 export type User = {
   __typename?: 'User';
-  email: Scalars['String'];
+  email?: Maybe<Scalars['String']>;
+  emailVerified: Scalars['Boolean'];
   id: Scalars['ID'];
+  numberVerified: Scalars['Boolean'];
   phoneNumber: Scalars['String'];
 };
 

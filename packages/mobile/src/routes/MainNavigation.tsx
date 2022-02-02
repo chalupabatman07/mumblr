@@ -2,7 +2,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 
-import { Home, Lander, SignUpFlow } from '../pages';
+import { Home, Lander, SignUpDetails, SignUpNumber, SignUpVerification } from '../pages';
 import { MainRoutes, MainStackParamList } from '.';
 
 interface Props {
@@ -15,9 +15,16 @@ const MainNavigation = ({ initialRoute }: Props): React.ReactElement => {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName={initialRoute} screenOptions={{ headerShown: false }}>
-        <Stack.Screen name={MainRoutes.Home} component={Home} />
+        {/* Lander */}
         <Stack.Screen name={MainRoutes.Lander} component={Lander} />
-        <Stack.Screen name={MainRoutes.SignUpFlow} component={SignUpFlow} />
+
+        {/* Auth Stack */}
+        <Stack.Screen name={MainRoutes.SignUpNumber} component={SignUpNumber} />
+        <Stack.Screen name={MainRoutes.SignUpVerification} component={SignUpVerification} />
+        <Stack.Screen name={MainRoutes.SignUpDetails} component={SignUpDetails} />
+
+        {/* App Stack */}
+        <Stack.Screen name={MainRoutes.Home} component={Home} />
       </Stack.Navigator>
     </NavigationContainer>
   );
