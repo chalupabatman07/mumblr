@@ -4,12 +4,10 @@ import { Text, View } from 'react-native';
 import { BackgroundVideo } from '../../components/backgroundVideo';
 import { LanderButton } from '../../components/button';
 import { TextLink } from '../../components/button/TextLink';
-import { MainRoutes } from '../../routes';
-import { MainNavigationProps } from '../../routes/types';
 import { styles } from './styles';
 
 interface Props {
-  navigation: MainNavigationProps<MainRoutes.Lander>;
+  navigation: any;
 }
 
 export const Lander = ({ navigation }: Props) => {
@@ -33,7 +31,7 @@ export const Lander = ({ navigation }: Props) => {
   };
 
   const handleCreateAccount = (): void => {
-    navigation.navigate(MainRoutes.SignUpNumber);
+    navigation.navigate('PhoneRegistration');
   };
 
   const showLoginOptions = (): void => {

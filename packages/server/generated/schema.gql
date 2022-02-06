@@ -3,6 +3,10 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+type AuthToken {
+  token: String!
+}
+
 type Conversation {
   id: ID!
   messages: [Message]!
@@ -86,11 +90,13 @@ type Mutation {
   createMessageForConversation(input: CreateMessageInput!): Conversation!
   createMessageForConversationId(input: CreateMessageInput!): [Message!]!
   createProfile(input: CreateProfileInput!): Profile!
+  createUser(phoneNumber: String!): AuthToken!
   publisherMutation(message: String!): String!
   sendMessage(message: String!): String!
   updateDiscovery(input: UpdateDiscoveryInput!): Discovery!
   updateLifestyle(input: UpdateLifestyleInput!): Lifestyle!
   updateProfile(input: UpdateProfileInput!): Profile!
+  updateUser(input: UpdateUserInput!): User!
 }
 
 type Participant {
@@ -134,6 +140,22 @@ type Query {
   getProfile: [Profile!]!
   me: User!
   myProfile: Profile!
+}
+
+"""Users registration progress"""
+type Registration {
+  completedBirthdayEntry: Boolean!
+  completedEmailEntry: Boolean!
+  completedGenderEntry: Boolean!
+  completedNameEntry: Boolean!
+  completedOrSkippedPassionsEntry: Boolean!
+  completedOrSkippedSchoolEntry: Boolean!
+  completedOrSkippedSexualOrientationEntry: Boolean!
+  completedProfileAnswersEntry: Boolean!
+  completedShowMeEntry: Boolean!
+  id: ID!
+  verifiedEmail: Boolean!
+  verifiedPhoneNumber: Boolean!
 }
 
 """How the user swings"""
@@ -202,13 +224,17 @@ input UpdateProfileInput {
   sexualOrientation: SexualOrientation
 }
 
+input UpdateUserInput {
+  email: String
+}
+
 """User auth information"""
 type User {
   email: String
-  emailVerified: Boolean!
   id: ID!
-  numberVerified: Boolean!
   phoneNumber: String!
+  registration: Registration!
+  verified: Boolean!
 }
 
 """The zodiac belt signs"""

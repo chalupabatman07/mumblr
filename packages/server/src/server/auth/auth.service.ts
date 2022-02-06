@@ -1,7 +1,8 @@
 import * as jwt from 'jsonwebtoken';
 
-import { User } from '../../schema';
+import { Registration, User } from '../../schema';
 import { Exception } from '../../utils';
+import { AuthToken } from './auth.model';
 
 class AuthenticationService {
   private generateJWT(user: any): any {
@@ -14,7 +15,7 @@ class AuthenticationService {
     return jwt.sign({ data }, signature);
   }
 
-  public async signUp(phoneNumber: string): Promise<any> {
+  public async signUp(phoneNumber: string): Promise<AuthToken> {
     const existingUser = await User.findOne({
       where: {
         phoneNumber,
@@ -24,18 +25,15 @@ class AuthenticationService {
       throw new Exception(401, 'This phone number is already registered with an account!');
     }
 
+    const registration = new Registration();
+    registration.verifiedPhoneNumber = true;
     const user = new User();
     user.phoneNumber = phoneNumber;
-    user.numberVerified = true;
-    user.emailVerified = false;
+    user.registration = registration;
 
     try {
       await user.save();
       return {
-        user: {
-          id: user.id,
-          phoneNumber: user.phoneNumber,
-        },
         token: this.generateJWT(user),
       };
     } catch (e) {
@@ -44,7 +42,7 @@ class AuthenticationService {
     }
   }
 
-  public async login(phoneNumber: string): Promise<any> {
+  public async login(phoneNumber: string): Promise<AuthToken> {
     const userRecord = await User.findOne({
       where: {
         phoneNumber,
@@ -56,10 +54,6 @@ class AuthenticationService {
     }
 
     return {
-      user: {
-        id: userRecord.id,
-        phoneNumber: userRecord.phoneNumber,
-      },
       token: this.generateJWT(userRecord),
     };
   }

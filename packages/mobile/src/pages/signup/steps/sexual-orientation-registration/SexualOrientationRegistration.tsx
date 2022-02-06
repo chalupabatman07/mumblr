@@ -1,10 +1,10 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 
-export const SignUpDetails = () => {
+export const SexualOrientationRegistration = () => {
   return (
     <View>
-      <Text>Sign up details</Text>
+      <Text>Sexual Orientation</Text>
     </View>
   );
 };

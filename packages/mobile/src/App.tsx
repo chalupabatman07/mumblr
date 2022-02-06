@@ -1,52 +1,45 @@
+import { ApolloClient, ApolloProvider, from, HttpLink, InMemoryCache } from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
 import * as SecureStore from 'expo-secure-store';
-import React, { useEffect, useState } from 'react';
-import { createClient, Provider } from 'urql';
+import React, { useState } from 'react';
 
 import { MainRoutes, MainStackParamList } from './routes';
 import MainNavigation from './routes/MainNavigation';
 
 const App = () => {
-  const [mumblrToken, setMumblrToken] = useState<string | null>(null);
-  const [initialRoute, setInitialRoute] = useState<keyof MainStackParamList>(MainRoutes.Lander);
+  const [initialRoute] = useState<keyof MainStackParamList>(MainRoutes.Lander);
 
   const getToken = async (): Promise<string | null> => {
-    return await SecureStore.getItemAsync('mumblrToken');
+    const token = await SecureStore.getItemAsync('token');
+    return token;
   };
 
-  const client = createClient({
-    url: 'http://10.0.2.2:8080/graphql',
-    fetchOptions: () => {
-      return {
-        headers: {
-          authorization: `Bearer ${mumblrToken}`,
-        },
-      };
-    },
+  const httpLink = new HttpLink({
+    uri: 'http://10.0.2.2:8080/graphql',
   });
 
-  useEffect(() => {
-    // const getMumblrToken = async (): Promise<void> => {
-    //   const token = await getToken();
-    //   setMumblrToken(token);
-    // };
-    // getMumblrToken();
-    const deleteMumblrToken = async (): Promise<void> => {
-      await SecureStore.deleteItemAsync('token');
-      await SecureStore.deleteItemAsync('mumblrToken');
-    };
-    deleteMumblrToken();
-  }, []);
-
-  useEffect(() => {
-    if (mumblrToken) {
-      setInitialRoute(MainRoutes.Home);
+  const contextLink = setContext(async operation => {
+    const token = await getToken();
+    if (!token) {
+      return {};
     }
-  }, [mumblrToken, initialRoute]);
+
+    return {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+  });
+
+  const client = new ApolloClient({
+    cache: new InMemoryCache(),
+    link: from([contextLink, httpLink]),
+  });
 
   return (
-    <Provider value={client}>
+    <ApolloProvider client={client}>
       <MainNavigation initialRoute={initialRoute} />
-    </Provider>
+    </ApolloProvider>
   );
 };
 

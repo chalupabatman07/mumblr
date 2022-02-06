@@ -1,14 +1,14 @@
+import { gql, useMutation } from '@apollo/client';
 import * as SecureStore from 'expo-secure-store';
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { Button, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { CodeField, Cursor, useBlurOnFulfill, useClearByFocusCell } from 'react-native-confirmation-code-field';
 
-import { MainRoutes } from '../../../../routes';
-import { MainNavigationProps, MainNavigationRouteProps } from '../../../../routes/types';
+import { AuthToken, MutationCreateUserArgs } from '../../../../generated/graphql';
 
 interface Props {
-  navigation: MainNavigationProps<MainRoutes.SignUpVerification>;
-  route: MainNavigationRouteProps<MainRoutes.SignUpVerification>;
+  navigation: any;
+  route: any;
 }
 
 const CELL_COUNT = 6;
@@ -41,9 +41,18 @@ const styles = StyleSheet.create({
   },
 });
 
-export const SignUpVerification = ({ route, navigation }: Props) => {
+const CREATE_USER = gql`
+  mutation createUser($phoneNumber: String!) {
+    createUser(phoneNumber: $phoneNumber) {
+      token
+    }
+  }
+`;
+
+export const PhoneVerification = ({ route, navigation }: Props) => {
   const [phoneNumber] = useState<string>(route.params.phoneNumber);
   const [verification, setVerification] = useState<string>('');
+  const [disabled, setDisabled] = useState<boolean>(true);
 
   const ref = useBlurOnFulfill({ value: verification, cellCount: CELL_COUNT });
   const [props, getCellOnLayoutHandler] = useClearByFocusCell({
@@ -51,39 +60,26 @@ export const SignUpVerification = ({ route, navigation }: Props) => {
     setValue: setVerification,
   });
 
+  const [createUser] = useMutation<{ createUser: AuthToken }, MutationCreateUserArgs>(CREATE_USER);
+
+  const handleOnContinue = async () => {
+    const num = phoneNumber.replace(/[- )(]/g, '');
+    const { data } = await createUser({ variables: { phoneNumber: num } });
+    if (!data) {
+      // TODO: handle error when user tries to sign up
+      return;
+    }
+    const token = data.createUser.token;
+    await SecureStore.setItemAsync('token', token);
+    navigation.navigate('EmailRegistration');
+  };
+
   useEffect(() => {
     if (verification.length < 6) {
       return;
     }
-
-    const handleRegisterPhoneNumber = async (): Promise<void> => {
-      const num = phoneNumber.replace(/[- )(]/g, '');
-
-      try {
-        const response = await fetch('http://10.0.2.2:8080/api/signup', {
-          method: 'POST',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            phoneNumber: num,
-          }),
-        });
-        const data = await response.json();
-        await SecureStore.setItemAsync('token', data.token);
-        navigation.navigate(MainRoutes.SignUpDetails);
-      } catch (e) {
-        console.log(e);
-      }
-    };
-
-    // TODO: Set this to check the verification code sent via text
-    // For now lets just use 123456 as verification
-    if (verification === '123456') {
-      handleRegisterPhoneNumber();
-    }
-  }, [navigation, phoneNumber, verification]);
+    setDisabled(false);
+  }, [verification.length]);
 
   return (
     <SafeAreaView style={styles.root}>
@@ -103,6 +99,7 @@ export const SignUpVerification = ({ route, navigation }: Props) => {
           </View>
         )}
       />
+      <Button title='Continue' onPress={handleOnContinue} disabled={disabled} />
     </SafeAreaView>
   );
 };

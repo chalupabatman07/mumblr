@@ -1,3 +1,4 @@
+import { gql } from '@apollo/client';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -10,6 +11,11 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+};
+
+export type AuthToken = {
+  __typename?: 'AuthToken';
+  token: Scalars['String'];
 };
 
 export type Conversation = {
@@ -101,11 +107,13 @@ export type Mutation = {
   createMessageForConversation: Conversation;
   createMessageForConversationId: Array<Message>;
   createProfile: Profile;
+  createUser: AuthToken;
   publisherMutation: Scalars['String'];
   sendMessage: Scalars['String'];
   updateDiscovery: Discovery;
   updateLifestyle: Lifestyle;
   updateProfile: Profile;
+  updateUser: User;
 };
 
 export type MutationCreateMatchArgs = {
@@ -122,6 +130,10 @@ export type MutationCreateMessageForConversationIdArgs = {
 
 export type MutationCreateProfileArgs = {
   input: CreateProfileInput;
+};
+
+export type MutationCreateUserArgs = {
+  phoneNumber: Scalars['String'];
 };
 
 export type MutationPublisherMutationArgs = {
@@ -142,6 +154,10 @@ export type MutationUpdateLifestyleArgs = {
 
 export type MutationUpdateProfileArgs = {
   input: UpdateProfileInput;
+};
+
+export type MutationUpdateUserArgs = {
+  input: UpdateUserInput;
 };
 
 export type Participant = {
@@ -196,6 +212,23 @@ export type QueryGetConversationByIdArgs = {
 
 export type QueryGetMessagesByConversationIdArgs = {
   conversationId: Scalars['String'];
+};
+
+/** Users registration progress */
+export type Registration = {
+  __typename?: 'Registration';
+  completedBirthdayEntry: Scalars['Boolean'];
+  completedEmailEntry: Scalars['Boolean'];
+  completedGenderEntry: Scalars['Boolean'];
+  completedNameEntry: Scalars['Boolean'];
+  completedOrSkippedPassionsEntry: Scalars['Boolean'];
+  completedOrSkippedSchoolEntry: Scalars['Boolean'];
+  completedOrSkippedSexualOrientationEntry: Scalars['Boolean'];
+  completedProfileAnswersEntry: Scalars['Boolean'];
+  completedShowMeEntry: Scalars['Boolean'];
+  id: Scalars['ID'];
+  verifiedEmail: Scalars['Boolean'];
+  verifiedPhoneNumber: Scalars['Boolean'];
 };
 
 /** How the user swings */
@@ -265,14 +298,18 @@ export type UpdateProfileInput = {
   sexualOrientation?: InputMaybe<SexualOrientation>;
 };
 
+export type UpdateUserInput = {
+  email?: InputMaybe<Scalars['String']>;
+};
+
 /** User auth information */
 export type User = {
   __typename?: 'User';
   email?: Maybe<Scalars['String']>;
-  emailVerified: Scalars['Boolean'];
   id: Scalars['ID'];
-  numberVerified: Scalars['Boolean'];
   phoneNumber: Scalars['String'];
+  registration: Registration;
+  verified: Scalars['Boolean'];
 };
 
 /** The zodiac belt signs */
