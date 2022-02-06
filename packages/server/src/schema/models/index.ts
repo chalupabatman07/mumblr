@@ -5,4 +5,5 @@ export * from './match';
 export * from './message';
 export * from './participant';
 export * from './profile';
+export * from './registration';
 export * from './user';

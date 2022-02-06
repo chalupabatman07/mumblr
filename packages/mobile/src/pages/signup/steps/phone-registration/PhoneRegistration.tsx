@@ -2,16 +2,14 @@ import React, { useState } from 'react';
 import { KeyboardAvoidingView, Pressable, Text, TextInput, View } from 'react-native';
 import Icon from 'react-native-vector-icons/Fontisto';
 
-import { MainRoutes } from '../../../../routes';
-import { MainNavigationProps } from '../../../../routes/types';
 import { formatPhoneNumber } from '../../../../utils';
 import { styles } from './styles';
 
 interface Props {
-  navigation: MainNavigationProps<MainRoutes.SignUpNumber>;
+  navigation: any;
 }
 
-export const SignUpNumber = ({ navigation }: Props) => {
+export const PhoneRegistration = ({ navigation }: Props) => {
   const [phoneNumber, setPhoneNumber] = useState<string>('');
   const [signUpDisabled, setSignUpDisabled] = useState<boolean>(true);
 
@@ -29,12 +27,11 @@ export const SignUpNumber = ({ navigation }: Props) => {
   };
 
   const handleBack = (): void => {
-    navigation.navigate(MainRoutes.Lander);
+    navigation.navigate('Lander');
   };
 
   const handleRegisterByPhone = async (): Promise<void> => {
-    console.log('phone number bitch: ', phoneNumber);
-    navigation.navigate(MainRoutes.SignUpVerification, { phoneNumber });
+    navigation.navigate('PhoneVerification', { phoneNumber });
   };
 
   return (

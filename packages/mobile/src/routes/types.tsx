@@ -1,7 +1,7 @@
 import { RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
-import { MainRoutes, MainStackParamList } from '.';
+import { MainRoutes, MainStackParamList } from './Routes';
 
 export type MainNavigationProps<RouteName extends keyof MainStackParamList = MainRoutes> = NativeStackNavigationProp<
   MainStackParamList,
