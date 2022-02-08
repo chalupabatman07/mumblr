@@ -30,37 +30,6 @@ export type CreateMessageInput = {
   conversationId: Scalars['String'];
 };
 
-export type CreateProfileInput = {
-  aboutMe?: InputMaybe<Scalars['String']>;
-  age: Scalars['Int'];
-  company?: InputMaybe<Scalars['String']>;
-  gender: Gender;
-  jobTitle?: InputMaybe<Scalars['String']>;
-  livingIn?: InputMaybe<Scalars['String']>;
-  school?: InputMaybe<Scalars['String']>;
-  sexualOrientation: SexualOrientation;
-};
-
-export type Discovery = {
-  __typename?: 'Discovery';
-  agePreferenceEnd?: Maybe<Scalars['Int']>;
-  agePreferenceStart?: Maybe<Scalars['Int']>;
-  distance?: Maybe<Scalars['Int']>;
-  id: Scalars['ID'];
-  location?: Maybe<Scalars['String']>;
-  showGlobal?: Maybe<Scalars['Boolean']>;
-  showMe?: Maybe<Scalars['Boolean']>;
-  showOnlyInAgeRange?: Maybe<Scalars['Boolean']>;
-  showPreference?: Maybe<ShowPreference>;
-};
-
-/** Does the user drink */
-export enum Drinking {
-  Drinker = 'DRINKER',
-  Nondrinker = 'NONDRINKER',
-  SocialDrinker = 'SOCIAL_DRINKER',
-}
-
 /** Users genders */
 export enum Gender {
   Genderfluid = 'GENDERFLUID',
@@ -73,16 +42,6 @@ export enum Gender {
   Transwomen = 'TRANSWOMEN',
   Women = 'WOMEN',
 }
-
-export type Lifestyle = {
-  __typename?: 'Lifestyle';
-  drinking?: Maybe<Drinking>;
-  id: Scalars['ID'];
-  marijuana?: Maybe<Smoking>;
-  pets?: Maybe<Pets>;
-  smoking?: Maybe<Smoking>;
-  zodiac?: Maybe<Zodiac>;
-};
 
 export type Match = {
   __typename?: 'Match';
@@ -106,13 +65,9 @@ export type Mutation = {
   createMatch: Match;
   createMessageForConversation: Conversation;
   createMessageForConversationId: Array<Message>;
-  createProfile: Profile;
   createUser: AuthToken;
   publisherMutation: Scalars['String'];
   sendMessage: Scalars['String'];
-  updateDiscovery: Discovery;
-  updateLifestyle: Lifestyle;
-  updateProfile: Profile;
   updateUser: User;
 };
 
@@ -128,10 +83,6 @@ export type MutationCreateMessageForConversationIdArgs = {
   input: CreateMessageInput;
 };
 
-export type MutationCreateProfileArgs = {
-  input: CreateProfileInput;
-};
-
 export type MutationCreateUserArgs = {
   phoneNumber: Scalars['String'];
 };
@@ -144,18 +95,6 @@ export type MutationSendMessageArgs = {
   message: Scalars['String'];
 };
 
-export type MutationUpdateDiscoveryArgs = {
-  input: UpdateDiscoveryInput;
-};
-
-export type MutationUpdateLifestyleArgs = {
-  input: UpdateLifestyleInput;
-};
-
-export type MutationUpdateProfileArgs = {
-  input: UpdateProfileInput;
-};
-
 export type MutationUpdateUserArgs = {
   input: UpdateUserInput;
 };
@@ -166,44 +105,13 @@ export type Participant = {
   userId: Scalars['String'];
 };
 
-/** Pets that users can have */
-export enum Pets {
-  AllPets = 'ALL_PETS',
-  Bird = 'BIRD',
-  Cat = 'CAT',
-  Dog = 'DOG',
-  Fish = 'FISH',
-  PetFree = 'PET_FREE',
-  Reptile = 'REPTILE',
-}
-
-export type Profile = {
-  __typename?: 'Profile';
-  aboutMe?: Maybe<Scalars['String']>;
-  age: Scalars['Int'];
-  company?: Maybe<Scalars['String']>;
-  discovery: Discovery;
-  gender: Gender;
-  id: Scalars['ID'];
-  jobTitle?: Maybe<Scalars['String']>;
-  lifestyle: Lifestyle;
-  livingIn?: Maybe<Scalars['String']>;
-  school?: Maybe<Scalars['String']>;
-  sexualOrientation: SexualOrientation;
-  userId: Scalars['ID'];
-};
-
 export type Query = {
   __typename?: 'Query';
   getAllMessages: Array<Message>;
   getConversationById: Conversation;
-  getDiscoveries: Array<Discovery>;
-  getLifestyles: Array<Lifestyle>;
   getMatches: Array<Match>;
   getMessagesByConversationId: Array<Message>;
-  getProfile: Array<Profile>;
   me: User;
-  myProfile: Profile;
 };
 
 export type QueryGetConversationByIdArgs = {
@@ -212,23 +120,6 @@ export type QueryGetConversationByIdArgs = {
 
 export type QueryGetMessagesByConversationIdArgs = {
   conversationId: Scalars['String'];
-};
-
-/** Users registration progress */
-export type Registration = {
-  __typename?: 'Registration';
-  completedBirthdayEntry: Scalars['Boolean'];
-  completedEmailEntry: Scalars['Boolean'];
-  completedGenderEntry: Scalars['Boolean'];
-  completedNameEntry: Scalars['Boolean'];
-  completedOrSkippedPassionsEntry: Scalars['Boolean'];
-  completedOrSkippedSchoolEntry: Scalars['Boolean'];
-  completedOrSkippedSexualOrientationEntry: Scalars['Boolean'];
-  completedProfileAnswersEntry: Scalars['Boolean'];
-  completedShowMeEntry: Scalars['Boolean'];
-  id: Scalars['ID'];
-  verifiedEmail: Scalars['Boolean'];
-  verifiedPhoneNumber: Scalars['Boolean'];
 };
 
 /** How the user swings */
@@ -251,14 +142,6 @@ export enum ShowPreference {
   Women = 'WOMEN',
 }
 
-/** Does the user smoke? */
-export enum Smoking {
-  Nonsmoker = 'NONSMOKER',
-  Smoker = 'SMOKER',
-  SmokerWhileDrinking = 'SMOKER_WHILE_DRINKING',
-  SocialSmoker = 'SOCIAL_SMOKER',
-}
-
 export type Subscription = {
   __typename?: 'Subscription';
   normalSubscription: Scalars['String'];
@@ -266,64 +149,27 @@ export type Subscription = {
   subscribeByConversationId: Conversation;
 };
 
-export type UpdateDiscoveryInput = {
-  agePreferenceEnd: Scalars['Int'];
-  agePreferenceStart: Scalars['Int'];
-  discoveryId: Scalars['String'];
-  distance: Scalars['Int'];
-  location: Scalars['String'];
-  showGlobal: Scalars['Boolean'];
-  showMe: Scalars['Boolean'];
-  showOnlyInAgeRange: Scalars['Boolean'];
-  showPreference: ShowPreference;
-};
-
-export type UpdateLifestyleInput = {
-  drinking?: InputMaybe<Drinking>;
-  lifestyleId: Scalars['String'];
-  marijuana?: InputMaybe<Smoking>;
-  pets?: InputMaybe<Pets>;
-  smoking?: InputMaybe<Smoking>;
-  zodiac?: InputMaybe<Zodiac>;
-};
-
-export type UpdateProfileInput = {
-  aboutMe?: InputMaybe<Scalars['String']>;
-  company?: InputMaybe<Scalars['String']>;
+export type UpdateUserInput = {
+  birthday?: InputMaybe<Scalars['String']>;
+  email?: InputMaybe<Scalars['String']>;
   gender?: InputMaybe<Gender>;
-  jobTitle?: InputMaybe<Scalars['String']>;
-  livingIn?: InputMaybe<Scalars['String']>;
-  profileId: Scalars['String'];
+  name?: InputMaybe<Scalars['String']>;
   school?: InputMaybe<Scalars['String']>;
   sexualOrientation?: InputMaybe<SexualOrientation>;
-};
-
-export type UpdateUserInput = {
-  email?: InputMaybe<Scalars['String']>;
+  showPreference?: InputMaybe<ShowPreference>;
 };
 
 /** User auth information */
 export type User = {
   __typename?: 'User';
+  birthday?: Maybe<Scalars['String']>;
   email?: Maybe<Scalars['String']>;
+  gender?: Maybe<Gender>;
   id: Scalars['ID'];
+  name?: Maybe<Scalars['String']>;
   phoneNumber: Scalars['String'];
-  registration: Registration;
+  school?: Maybe<Scalars['String']>;
+  sexualOrientation?: Maybe<SexualOrientation>;
+  showPreference?: Maybe<ShowPreference>;
   verified: Scalars['Boolean'];
 };
-
-/** The zodiac belt signs */
-export enum Zodiac {
-  Aquarius = 'AQUARIUS',
-  Aries = 'ARIES',
-  Cancer = 'CANCER',
-  Capricorn = 'CAPRICORN',
-  Gemini = 'GEMINI',
-  Leo = 'LEO',
-  Libra = 'LIBRA',
-  Pisces = 'PISCES',
-  Sagittarius = 'SAGITTARIUS',
-  Scorpio = 'SCORPIO',
-  Taurus = 'TAURUS',
-  Virgo = 'VIRGO',
-}

@@ -1,11 +1,11 @@
-import { Arg, Ctx, FieldResolver, Mutation, Query, Resolver, Root, UseMiddleware } from 'type-graphql';
+import { Arg, Ctx, Mutation, Query, Resolver, UseMiddleware } from 'type-graphql';
 
 import { authService, isAuth, MumblrContext } from '../../../server';
 import { AuthToken } from '../../../server/auth/auth.model';
-import { registrationService, userService } from '../../../services';
+import { userService } from '../../../services';
 import { checkUserContext } from '../../../utils';
 import { UpdateUserInput } from '../..';
-import { Registration, User } from '../../models';
+import { User } from '../../models';
 
 @Resolver(of => User)
 export class UserResolver {
@@ -26,10 +26,5 @@ export class UserResolver {
   async updateUser(@Arg('input') input: UpdateUserInput, @Ctx() context: MumblrContext): Promise<User> {
     const userId = checkUserContext(context);
     return userService.updateUserById(userId, input);
-  }
-
-  @FieldResolver()
-  async registration(@Root() user: User): Promise<Registration> {
-    return await registrationService.getRegistrationById(user.registrationId);
   }
 }

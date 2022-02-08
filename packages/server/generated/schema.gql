@@ -18,36 +18,6 @@ input CreateMessageInput {
   conversationId: String!
 }
 
-input CreateProfileInput {
-  aboutMe: String
-  age: Int!
-  company: String
-  gender: Gender!
-  jobTitle: String
-  livingIn: String
-  school: String
-  sexualOrientation: SexualOrientation!
-}
-
-type Discovery {
-  agePreferenceEnd: Int
-  agePreferenceStart: Int
-  distance: Int
-  id: ID!
-  location: String
-  showGlobal: Boolean
-  showMe: Boolean
-  showOnlyInAgeRange: Boolean
-  showPreference: ShowPreference
-}
-
-"""Does the user drink"""
-enum Drinking {
-  DRINKER
-  NONDRINKER
-  SOCIAL_DRINKER
-}
-
 """Users genders"""
 enum Gender {
   GENDERFLUID
@@ -59,15 +29,6 @@ enum Gender {
   TRANSSEXUAL
   TRANSWOMEN
   WOMEN
-}
-
-type Lifestyle {
-  drinking: Drinking
-  id: ID!
-  marijuana: Smoking
-  pets: Pets
-  smoking: Smoking
-  zodiac: Zodiac
 }
 
 type Match {
@@ -89,13 +50,9 @@ type Mutation {
   createMatch(matchId: String!): Match!
   createMessageForConversation(input: CreateMessageInput!): Conversation!
   createMessageForConversationId(input: CreateMessageInput!): [Message!]!
-  createProfile(input: CreateProfileInput!): Profile!
   createUser(phoneNumber: String!): AuthToken!
   publisherMutation(message: String!): String!
   sendMessage(message: String!): String!
-  updateDiscovery(input: UpdateDiscoveryInput!): Discovery!
-  updateLifestyle(input: UpdateLifestyleInput!): Lifestyle!
-  updateProfile(input: UpdateProfileInput!): Profile!
   updateUser(input: UpdateUserInput!): User!
 }
 
@@ -104,58 +61,12 @@ type Participant {
   userId: String!
 }
 
-"""Pets that users can have"""
-enum Pets {
-  ALL_PETS
-  BIRD
-  CAT
-  DOG
-  FISH
-  PET_FREE
-  REPTILE
-}
-
-type Profile {
-  aboutMe: String
-  age: Int!
-  company: String
-  discovery: Discovery!
-  gender: Gender!
-  id: ID!
-  jobTitle: String
-  lifestyle: Lifestyle!
-  livingIn: String
-  school: String
-  sexualOrientation: SexualOrientation!
-  userId: ID!
-}
-
 type Query {
   getAllMessages: [Message!]!
   getConversationById(conversationId: String!): Conversation!
-  getDiscoveries: [Discovery!]!
-  getLifestyles: [Lifestyle!]!
   getMatches: [Match!]!
   getMessagesByConversationId(conversationId: String!): [Message!]!
-  getProfile: [Profile!]!
   me: User!
-  myProfile: Profile!
-}
-
-"""Users registration progress"""
-type Registration {
-  completedBirthdayEntry: Boolean!
-  completedEmailEntry: Boolean!
-  completedGenderEntry: Boolean!
-  completedNameEntry: Boolean!
-  completedOrSkippedPassionsEntry: Boolean!
-  completedOrSkippedSchoolEntry: Boolean!
-  completedOrSkippedSexualOrientationEntry: Boolean!
-  completedProfileAnswersEntry: Boolean!
-  completedShowMeEntry: Boolean!
-  id: ID!
-  verifiedEmail: Boolean!
-  verifiedPhoneNumber: Boolean!
 }
 
 """How the user swings"""
@@ -178,77 +89,32 @@ enum ShowPreference {
   WOMEN
 }
 
-"""Does the user smoke?"""
-enum Smoking {
-  NONSMOKER
-  SMOKER
-  SMOKER_WHILE_DRINKING
-  SOCIAL_SMOKER
-}
-
 type Subscription {
   normalSubscription: String!
   receiveMessage: String!
   subscribeByConversationId: Conversation!
 }
 
-input UpdateDiscoveryInput {
-  agePreferenceEnd: Int!
-  agePreferenceStart: Int!
-  discoveryId: String!
-  distance: Int!
-  location: String!
-  showGlobal: Boolean!
-  showMe: Boolean!
-  showOnlyInAgeRange: Boolean!
-  showPreference: ShowPreference!
-}
-
-input UpdateLifestyleInput {
-  drinking: Drinking
-  lifestyleId: String!
-  marijuana: Smoking
-  pets: Pets
-  smoking: Smoking
-  zodiac: Zodiac
-}
-
-input UpdateProfileInput {
-  aboutMe: String
-  company: String
+input UpdateUserInput {
+  birthday: String
+  email: String
   gender: Gender
-  jobTitle: String
-  livingIn: String
-  profileId: String!
+  name: String
   school: String
   sexualOrientation: SexualOrientation
-}
-
-input UpdateUserInput {
-  email: String
+  showPreference: ShowPreference
 }
 
 """User auth information"""
 type User {
+  birthday: String
   email: String
+  gender: Gender
   id: ID!
+  name: String
   phoneNumber: String!
-  registration: Registration!
+  school: String
+  sexualOrientation: SexualOrientation
+  showPreference: ShowPreference
   verified: Boolean!
-}
-
-"""The zodiac belt signs"""
-enum Zodiac {
-  AQUARIUS
-  ARIES
-  CANCER
-  CAPRICORN
-  GEMINI
-  LEO
-  LIBRA
-  PISCES
-  SAGITTARIUS
-  SCORPIO
-  TAURUS
-  VIRGO
 }

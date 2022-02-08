@@ -12,20 +12,12 @@ const UPDATE_USER = gql`
       email
       phoneNumber
       verified
-      registration {
-        id
-        verifiedPhoneNumber
-        verifiedEmail
-        completedEmailEntry
-        completedNameEntry
-        completedBirthdayEntry
-        completedGenderEntry
-        completedOrSkippedSexualOrientationEntry
-        completedShowMeEntry
-        completedOrSkippedSchoolEntry
-        completedOrSkippedPassionsEntry
-        completedProfileAnswersEntry
-      }
+      name
+      birthday
+      gender
+      sexualOrientation
+      showPreference
+      school
     }
   }
 `;

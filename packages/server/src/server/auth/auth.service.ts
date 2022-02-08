@@ -1,6 +1,6 @@
 import * as jwt from 'jsonwebtoken';
 
-import { Registration, User } from '../../schema';
+import { User } from '../../schema';
 import { Exception } from '../../utils';
 import { AuthToken } from './auth.model';
 
@@ -25,11 +25,8 @@ class AuthenticationService {
       throw new Exception(401, 'This phone number is already registered with an account!');
     }
 
-    const registration = new Registration();
-    registration.verifiedPhoneNumber = true;
     const user = new User();
     user.phoneNumber = phoneNumber;
-    user.registration = registration;
 
     try {
       await user.save();

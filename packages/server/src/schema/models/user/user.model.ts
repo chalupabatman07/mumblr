@@ -1,7 +1,7 @@
 import { Field, ID, ObjectType } from 'type-graphql';
-import { BaseEntity, Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn, RelationId } from 'typeorm';
+import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-import { Registration } from '..';
+import { Gender, SexualOrientation, ShowPreference } from '../../enums';
 
 @Entity()
 @ObjectType({ description: 'User auth information' })
@@ -22,10 +22,27 @@ export class User extends BaseEntity {
   @Column({ type: 'boolean', nullable: false, default: false })
   public verified!: boolean;
 
-  @Field(type => Registration)
-  @OneToOne(() => Registration, { cascade: true })
-  @JoinColumn()
-  public registration!: Registration;
-  @RelationId((user: User) => user.registration)
-  public registrationId!: string;
+  @Field(() => String, { nullable: true })
+  @Column({ type: 'varchar', nullable: true })
+  public name?: string;
+
+  @Field(() => String, { nullable: true })
+  @Column({ type: 'varchar', nullable: true })
+  public birthday?: string;
+
+  @Field(type => Gender, { nullable: true })
+  @Column({ type: 'enum', enum: Gender, nullable: true })
+  public gender?: Gender;
+
+  @Field(type => SexualOrientation, { nullable: true })
+  @Column({ type: 'enum', enum: SexualOrientation, nullable: true })
+  public sexualOrientation?: SexualOrientation;
+
+  @Field(type => ShowPreference, { nullable: true })
+  @Column({ type: 'enum', enum: ShowPreference, nullable: true })
+  public showPreference?: ShowPreference;
+
+  @Field(() => String, { nullable: true })
+  @Column({ type: 'varchar', nullable: true })
+  public school?: string;
 }

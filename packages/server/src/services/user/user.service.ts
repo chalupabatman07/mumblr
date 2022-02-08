@@ -11,13 +11,20 @@ class UserService {
   }
 
   public async updateUserById(userId: string, input: UpdateUserInput): Promise<User> {
-    const { email } = input;
+    const { email, name, birthday, gender, sexualOrientation, showPreference, school } = input;
     const user = await User.findOne(userId);
     if (!user) {
       throw new Exception(404, `User with id: ${userId} was not found`);
     }
 
     user.email = email ?? user.email;
+    user.name = name ?? user.name;
+    user.birthday = birthday ?? user.birthday;
+    user.gender = gender ?? user.gender;
+    user.sexualOrientation = sexualOrientation ?? user.sexualOrientation;
+    user.showPreference = showPreference ?? user.showPreference;
+    user.school = school ?? user.school;
+
     await user.save();
     return user;
   }
