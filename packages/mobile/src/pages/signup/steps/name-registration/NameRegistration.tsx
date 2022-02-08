@@ -1,8 +1,10 @@
 import { gql, useMutation } from '@apollo/client';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React, { useState } from 'react';
 import { Button, Text, TextInput, View } from 'react-native';
 
 import { MutationUpdateUserArgs, User } from '../../../../generated/graphql';
+import { MainRoutes, MainStackParamList } from '../../../../routes';
 
 const UPDATE_USER = gql`
   mutation updateUser($input: UpdateUserInput!) {
@@ -21,7 +23,9 @@ const UPDATE_USER = gql`
   }
 `;
 
-export const NameRegistration = ({ navigation }: any) => {
+type Props = NativeStackScreenProps<MainStackParamList, MainRoutes.NameRegistration>;
+
+export const NameRegistration = ({ navigation }: Props) => {
   const [name, setName] = useState<string>('');
   const [disabled, setDisabled] = useState<boolean>(true);
 
@@ -40,7 +44,7 @@ export const NameRegistration = ({ navigation }: any) => {
     const input = { name };
     const { errors } = await updateUser({ variables: { input } });
     if (!errors) {
-      navigation.navigate('BirthdayRegistration');
+      navigation.navigate(MainRoutes.BirthdayRegistration);
     }
   };
 

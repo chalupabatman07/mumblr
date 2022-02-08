@@ -1,8 +1,10 @@
 import { gql, useMutation } from '@apollo/client';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React, { useState } from 'react';
 import { Button, Text, TextInput, View } from 'react-native';
 
 import { MutationUpdateUserArgs, User } from '../../../../generated/graphql';
+import { MainRoutes, MainStackParamList } from '../../../../routes';
 import { validateEmail } from '../../../../utils';
 
 const UPDATE_USER = gql`
@@ -22,7 +24,9 @@ const UPDATE_USER = gql`
   }
 `;
 
-export const EmailRegistration = ({ navigation }: any) => {
+type Props = NativeStackScreenProps<MainStackParamList, MainRoutes.EmailRegistration>;
+
+export const EmailRegistration = ({ navigation }: Props) => {
   const [email, setEmail] = useState<string>('');
   const [disabled, setDisabled] = useState<boolean>(true);
 
@@ -39,7 +43,7 @@ export const EmailRegistration = ({ navigation }: any) => {
     const input = { email };
     const { errors } = await updateUser({ variables: { input } });
     if (!errors) {
-      navigation.navigate('NameRegistration');
+      navigation.navigate(MainRoutes.NameRegistration);
     }
   };
 

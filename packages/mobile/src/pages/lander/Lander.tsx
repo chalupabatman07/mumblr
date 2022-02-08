@@ -1,14 +1,14 @@
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React from 'react';
 import { Text, View } from 'react-native';
 
 import { BackgroundVideo } from '../../components/backgroundVideo';
 import { LanderButton } from '../../components/button';
 import { TextLink } from '../../components/button/TextLink';
+import { MainRoutes, MainStackParamList } from '../../routes/Routes';
 import { styles } from './styles';
 
-interface Props {
-  navigation: any;
-}
+type Props = NativeStackScreenProps<MainStackParamList, MainRoutes.Lander>;
 
 export const Lander = ({ navigation }: Props) => {
   const handleSignInPressed = async (): Promise<void> => {
@@ -31,7 +31,7 @@ export const Lander = ({ navigation }: Props) => {
   };
 
   const handleCreateAccount = (): void => {
-    navigation.navigate('PhoneRegistration');
+    navigation.navigate(MainRoutes.PhoneRegistration);
   };
 
   const showLoginOptions = (): void => {

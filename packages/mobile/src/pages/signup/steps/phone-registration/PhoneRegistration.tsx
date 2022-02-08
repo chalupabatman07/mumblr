@@ -1,13 +1,13 @@
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React, { useState } from 'react';
 import { KeyboardAvoidingView, Pressable, Text, TextInput, View } from 'react-native';
 import Icon from 'react-native-vector-icons/Fontisto';
 
+import { MainRoutes, MainStackParamList } from '../../../../routes';
 import { formatPhoneNumber } from '../../../../utils';
 import { styles } from './styles';
 
-interface Props {
-  navigation: any;
-}
+type Props = NativeStackScreenProps<MainStackParamList, MainRoutes.PhoneRegistration>;
 
 export const PhoneRegistration = ({ navigation }: Props) => {
   const [phoneNumber, setPhoneNumber] = useState<string>('');
@@ -27,11 +27,11 @@ export const PhoneRegistration = ({ navigation }: Props) => {
   };
 
   const handleBack = (): void => {
-    navigation.navigate('Lander');
+    navigation.navigate(MainRoutes.Lander);
   };
 
   const handleRegisterByPhone = async (): Promise<void> => {
-    navigation.navigate('PhoneVerification', { phoneNumber });
+    navigation.navigate(MainRoutes.PhoneVerification, { phoneNumber });
   };
 
   return (

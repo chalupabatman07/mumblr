@@ -1,15 +1,13 @@
 import { gql, useMutation } from '@apollo/client';
+import { RouteProp } from '@react-navigation/native';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import * as SecureStore from 'expo-secure-store';
 import React, { useEffect, useState } from 'react';
 import { Button, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { CodeField, Cursor, useBlurOnFulfill, useClearByFocusCell } from 'react-native-confirmation-code-field';
 
 import { AuthToken, MutationCreateUserArgs } from '../../../../generated/graphql';
-
-interface Props {
-  navigation: any;
-  route: any;
-}
+import { MainRoutes, MainStackParamList } from '../../../../routes';
 
 const CELL_COUNT = 6;
 
@@ -49,6 +47,9 @@ const CREATE_USER = gql`
   }
 `;
 
+type Props = NativeStackScreenProps<MainStackParamList, MainRoutes.PhoneVerification> &
+  RouteProp<MainStackParamList, MainRoutes.PhoneVerification>;
+
 export const PhoneVerification = ({ route, navigation }: Props) => {
   const [phoneNumber] = useState<string>(route.params.phoneNumber);
   const [verification, setVerification] = useState<string>('');
@@ -71,7 +72,7 @@ export const PhoneVerification = ({ route, navigation }: Props) => {
     }
     const token = data.createUser.token;
     await SecureStore.setItemAsync('token', token);
-    navigation.navigate('EmailRegistration');
+    navigation.navigate(MainRoutes.EmailRegistration);
   };
 
   useEffect(() => {
